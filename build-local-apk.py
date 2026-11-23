@@ -12,7 +12,7 @@ parser.add_argument("--output", type=Path, required=True)
 args = parser.parse_args()
 OUT = args.output
 OUT.mkdir(parents=True, exist_ok=True)
-VERSION = "0.3.1-r1"
+VERSION = "0.4.0-r2"
 ARCH = "mipsel_24kc"
 
 

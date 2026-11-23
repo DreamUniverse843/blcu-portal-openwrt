@@ -87,13 +87,59 @@ class PortalTest(unittest.TestCase):
         state = {"online": False}
         with (patch.object(client, "read_interface", return_value=self.wan),
               patch.object(client, "check_status",
-                           side_effect=[state, client.Retry("timeout"), state, state, KeyboardInterrupt]),
-              patch.object(client, "login") as login,
-              patch.object(client, "confirm_login", return_value=False),
+                           side_effect=[state.copy(), client.Retry("timeout"), state.copy(), state.copy(), KeyboardInterrupt]),
+              patch.object(client, "attempt_login", return_value=False) as login,
+              patch.object(client, "authentication_event"),
               patch.object(client.time, "sleep")):
             with self.assertRaises(KeyboardInterrupt):
                 client.run("watch", "wwan", None, 30, 2)
         login.assert_called_once()
+
+    def test_dual_stack_distinguishes_families_and_keeps_online_path(self):
+        ipv4 = ipaddress.ip_address("192.0.2.3")
+        ipv6 = ipaddress.ip_address("2001:db8::3")
+        self.assertEqual(client.connection_paths(self.wan, ipv4, "dual", ipv6), [(4, ipv4), (6, ipv6)])
+        state = {"online": True, "endpoint": {"source": "192.0.2.20"},
+                 "portal_login_time": ""}
+        def probe(_wan, version, _target):
+            return (state.copy(), None) if version == 4 else (None, "无 IPv6 响应")
+        with (patch.object(client, "read_interface", return_value=self.wan),
+              patch.object(client, "read_path", side_effect=probe),
+              patch.object(client, "saved_login", return_value="")):
+            result = client.snapshot("wwan", ipv4, "dual", ipv6)
+        self.assertEqual(result["state"], "partial")
+        self.assertEqual([row["state"] for row in result["paths"]], ["online", "unknown"])
+
+    def test_auth_log_is_bounded_and_does_not_use_server_text(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.object(client, "EVENT_LOG", Path(folder) / "events.json"):
+                for number in range(103):
+                    client.authentication_event("wwan", "state", str(number), 4)
+                events = client.read_events()
+        self.assertEqual((len(events), events[0]["reason"], events[-1]["reason"]), (100, "3", "102"))
+        self.assertEqual(client.rejection_reason({"msg": "user example password xxx"}),
+                         "校园网账号或密码未通过验证")
+
+    def test_update_checks_release_without_installing(self):
+        source = "https://github.com/example/project/releases"
+        self.assertEqual(client.release_source(source),
+                         "https://github.com/example/project/releases/latest")
+        with self.assertRaises(ValueError):
+            client.release_source("http://example.com/releases")
+        response = subprocess.CompletedProcess([], 0, b"https://github.com/example/project/releases/tag/v1.0.0")
+        with tempfile.TemporaryDirectory() as folder:
+            with (patch.object(client, "UPDATE_STATE", Path(folder) / "update.json"),
+                  patch.object(client.subprocess, "run", return_value=response) as run):
+                checked = client.check_update(source)
+        self.assertTrue(checked["available"])
+        self.assertEqual(checked["latest"], "1.0.0")
+        self.assertEqual(run.call_args.args[0][0], "curl")
+        run.assert_called_once()
+
+    def test_custom_json_release_source(self):
+        response = subprocess.CompletedProcess([], 0, b'{"tag_name":"1.0.0","draft":false}')
+        with patch.object(client.subprocess, "run", return_value=response):
+            self.assertEqual(client.fetch_release("https://mirror.example/latest.json")["tag_name"], "1.0.0")
 
 
 if __name__ == "__main__":

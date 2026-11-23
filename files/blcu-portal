@@ -16,12 +16,16 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
-from urllib.parse import urlencode, urlsplit
+from urllib.parse import urlencode, urlsplit, urlunsplit
 
 BASE = "https://login.blcu.edu.cn"
 API = BASE + ":802/eportal/portal"
 SECRETS = Path("/etc/blcu-portal/credentials.json")
 LAST_LOGIN = SECRETS.parent / "last-login.json"
+EVENT_LOG = SECRETS.parent / "authentication-log.json"
+UPDATE_STATE = Path("/tmp/blcu-portal-update.json")
+VERSION = "0.4.0"
+UPDATE_SOURCE = "https://github.com/DreamUniverse843/blcu-portal-openwrt/releases/latest"
 CALLBACK = "blcuPortal"
 INTERVAL = 60
 
@@ -115,8 +119,8 @@ def request(device, server_ip, url, version, fields=None, *, family=None):
     return data, {"source": str(source), "remote": str(remote), "port": int(port)}
 
 
-def check_status(wan, server_ip):
-    family = server_ip.version if server_ip else (4 if wan["addresses"][4] else 6)
+def check_status(wan, server_ip, family=None, *, strict=False):
+    family = family or (server_ip.version if server_ip else (4 if wan["addresses"][4] else 6))
     if not wan["addresses"][family]:
         raise Retry(f"校园网接口尚未取得 IPv{family} 地址")
     data, endpoint = request(wan["device"], server_ip, BASE + "/drcom/chkstatus",
@@ -134,7 +138,7 @@ def check_status(wan, server_ip):
     if reported_family and endpoint["source"] not in reported_family:
         raise Retry("Portal 返回的终端地址与所选 WAN 的源地址不一致")
     if result == "1" and endpoint["source"] not in reported_family:
-        if family != 6 or not any(str(addr) in wan["addresses"][4] for addr in portal_addresses):
+        if strict or family != 6 or not any(str(addr) in wan["addresses"][4] for addr in portal_addresses):
             raise Retry("Portal 未确认所选 WAN 的在线状态")
     previous = data.get("stime", "")
     if not isinstance(previous, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}", previous):
@@ -143,6 +147,82 @@ def check_status(wan, server_ip):
             "account": data.get("uid"),
             "portal_mac": format_mac(data.get("ss4")),
             "portal_login_time": previous if result == "1" else ""}
+
+
+def connection_paths(wan, server_ip, address_mode="auto", server_ipv6=None):
+    if address_mode == "auto":
+        return [(server_ip.version if server_ip else (4 if wan["addresses"][4] else 6), server_ip)]
+    families = (4, 6) if address_mode == "dual" else (int(address_mode[-1]),)
+    return [
+        (version, next((ip for ip in (server_ipv6, server_ip) if ip and ip.version == version), None))
+        for version in families
+    ]
+
+
+def read_path(wan, version, target):
+    try:
+        return check_status(wan, target, version, strict=True), None
+    except (Retry, ValueError, OSError, subprocess.TimeoutExpired) as failure:
+        reason = str(failure) if isinstance(failure, Retry) else "Portal 响应或接口状态无效"
+        return None, reason
+
+
+def check_connection(wan, server_ip, address_mode, server_ipv6):
+    if address_mode == "auto":
+        state = check_status(wan, server_ip)
+        state["server_ip"] = server_ip
+        return [state], {}
+    addresses = connection_paths(wan, server_ip, address_mode, server_ipv6)
+    with ThreadPoolExecutor(max_workers=len(addresses)) as pool:
+        outcomes = list(pool.map(lambda path: read_path(wan, *path), addresses))
+    states, failures = [], {}
+    for (version, target), (state, error) in zip(addresses, outcomes):
+        if state is not None:
+            state["server_ip"] = target
+            states.append(state)
+        else:
+            failures[version] = error
+    return states, failures
+
+
+def state_family(state):
+    return ipaddress.ip_address(state["endpoint"]["source"]).version
+
+
+def authentication_event(interface, event, reason="", family=None):
+    entry = {"time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+             "interface": interface, "event": event, "reason": reason, "family": family}
+    try:
+        EVENT_LOG.parent.mkdir(mode=0o700, exist_ok=True)
+        with (EVENT_LOG.parent / "authentication-log.lock").open("a") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            events = read_events()
+            write_private_json(EVENT_LOG, (events + [entry])[-100:])
+    except OSError:
+        print("无法写入认证日志", file=sys.stderr, flush=True)
+
+
+def read_events():
+    try:
+        events = json.loads(EVENT_LOG.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+    return events if isinstance(events, list) else []
+
+
+def rejection_reason(response):
+    if response.get("auth_url") or response.get("self_auth_url"):
+        return "Portal 要求在浏览器中完成身份验证"
+    message = str(response.get("msg") or response.get("message") or "").lower()
+    for keywords, reason in [
+        (("密码", "password"), "校园网账号或密码未通过验证"),
+        (("欠费", "余额不足", "逾期"), "校园网账户余额或有效期异常"),
+        (("同时在线", "终端数", "在线数量"), "校园网在线终端数已达限制"),
+        (("验证码", "captcha", "二次验证"), "Portal 要求人工验证"),
+    ]:
+        if any(word in message for word in keywords):
+            return reason
+    return "Portal 拒绝认证，请在校园网登录页查看详情"
 
 
 def saved_login(interface, server_ip):
@@ -196,11 +276,11 @@ def write_private_json(path, data):
             temp.unlink(missing_ok=True)
 
 
-def login(wan, server_ip, state):
+def login(wan, server_ip, state, *, dual=False):
     source = state["endpoint"]["source"]
     family = ipaddress.ip_address(source).version
     ipv4 = source if family == 4 else next(iter(wan["addresses"][4]), "")
-    ipv6 = source if family == 6 else ""
+    ipv6 = source if family == 6 else (next(iter(wan["addresses"][6]), "") if dual else "")
     mac = state["portal_mac"] or wan["mac"] or "000000000000"
     config, config_connection = request(
         wan["device"], server_ip, API + "/page/loadConfig", "4.X",
@@ -237,72 +317,127 @@ def login(wan, server_ip, state):
         raise Stop("认证结果未知。请先查在线状态，再决定是否重新登录") from failure
     if (response.get("auth_url") or response.get("self_auth_url")
             or str(response.get("result")) not in {"1", "ok"}):
-        raise Stop("Portal 拒绝登录或要求人工操作，请在浏览器中确认")
+        raise Stop(rejection_reason(response))
     print("Portal 已接受登录，正在等待在线状态", flush=True)
 
 
-def snapshot(interface, server_ip):
+def snapshot(interface, server_ip, address_mode="auto", server_ipv6=None):
     result = {"ok": False, "state": "unknown", "interface": interface,
               "server_ip": str(server_ip or ""), "status_port": 443, "login_port": 802,
-              "last_login": saved_login(interface, server_ip)}
+              "last_login": saved_login(interface, server_ip), "paths": []}
     try:
         wan = read_interface(interface)
         result.update(device=wan["device"], mac=wan["mac"],
                       ipv4=wan["addresses"][4], ipv6=wan["addresses"][6])
-        state = check_status(wan, server_ip)
-        result.update(ok=state["online"], state="online" if state["online"] else "offline",
-                      endpoint=state["endpoint"], last_login=observe_login(wan, server_ip, state))
-        result["message"] = "校园网 WAN 已认证" if state["online"] else "校园网 WAN 未认证"
+        states, failures = check_connection(wan, server_ip, address_mode, server_ipv6)
+        result["paths"] = sorted([
+            {"family": state_family(state), "state": "online" if state["online"] else "offline",
+             "endpoint": state["endpoint"]} for state in states
+        ] + [{"family": version, "state": "unknown", "message": error}
+             for version, error in failures.items()], key=lambda path: path["family"])
+        online = next((state for state in states if state["online"]), None)
+        if online:
+            state = "partial" if failures or any(not path["online"] for path in states) else "online"
+            result.update(ok=True, state=state, endpoint=online["endpoint"],
+                          last_login=observe_login(wan, server_ip, online))
+        elif states:
+            result.update(state="offline", endpoint=states[0]["endpoint"])
+        result["message"] = {
+            "online": "校园网 WAN 已认证",
+            "partial": "已确认部分地址族在线",
+            "offline": "校园网 WAN 未认证",
+            "unknown": "暂未确认校园网认证状态",
+        }[result["state"]]
     except (Retry, ValueError, OSError, subprocess.TimeoutExpired) as failure:
         result["message"] = str(failure) if isinstance(failure, Retry) else "Portal 响应或接口状态无效"
     return result
 
 
-def confirm_login(wan, server_ip):
+def confirm_login(wan, server_ip, session=None, *, history_ip=None):
+    target = session["server_ip"] if session else server_ip
     for _ in range(3):
         time.sleep(2)
-        state = check_status(wan, server_ip)
+        state = (check_status(wan, target, state_family(session), strict=True)
+                 if session else check_status(wan, target))
         if state["online"]:
-            observe_login(wan, server_ip, state, confirmed=True)
-            print("校园网 WAN 已认证", flush=True)
+            observe_login(wan, history_ip if session else server_ip, state, confirmed=True)
             return True
     return False
 
 
-def run(mode, interface, server_ip, interval, threshold):
+def attempt_login(wan, server_ip, session, address_mode):
+    with open("/var/lock/blcu-portal.lock", "a") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as failure:
+            raise Retry("已有认证请求正在运行") from failure
+        family = state_family(session)
+        authentication_event(wan["name"], "attempt", family=family)
+        try:
+            if address_mode == "auto":
+                login(wan, server_ip, session)
+                confirmed = confirm_login(wan, server_ip)
+            else:
+                login(wan, session["server_ip"], session, dual=address_mode == "dual")
+                confirmed = confirm_login(wan, session["server_ip"], session, history_ip=server_ip)
+        except (Retry, Stop, ValueError, subprocess.TimeoutExpired) as failure:
+            reason = str(failure) if isinstance(failure, (Retry, Stop)) else "认证响应无效或连接超时"
+            authentication_event(wan["name"], "failed", reason, family)
+            raise
+        if confirmed:
+            authentication_event(wan["name"], "success", family=family)
+        else:
+            authentication_event(wan["name"], "unconfirmed", "Portal 接受登录，但尚未确认在线", family)
+        return confirmed
+
+
+def run(mode, interface, server_ip, interval, threshold, address_mode="auto", server_ipv6=None):
     if mode == "status":
-        result = snapshot(interface, server_ip)
+        result = snapshot(interface, server_ip, address_mode, server_ipv6)
         print(result["message"])
-        return {"online": 0, "offline": 1, "unknown": 2}[result["state"]]
+        return {"online": 0, "partial": 0, "offline": 1, "unknown": 2}[result["state"]]
 
     delay = interval
     next_login = 0.0
     last_message = None
     offline_count = 0
     blocked = False
+    credential_version = None
     while True:
         try:
+            try:
+                revision = SECRETS.stat().st_mtime_ns
+            except OSError:
+                revision = None
+            if revision != credential_version:
+                blocked = False
+                credential_version = revision
             wan = read_interface(interface)
-            state = check_status(wan, server_ip)
-            if state["online"]:
-                observe_login(wan, server_ip, state)
+            states, failures = check_connection(wan, server_ip, address_mode, server_ipv6)
+            online = [state for state in states if state["online"]]
+            offline = [state for state in states if not state["online"]]
+            if not states:
+                raise Retry("；".join(f"IPv{family}：{error}" for family, error in failures.items()))
+            if online:
+                observe_login(wan, server_ip, online[0])
                 offline_count = 0
                 blocked = False
-                message = "校园网 WAN 已认证"
+                message = "已确认部分地址族在线" if offline or failures else "校园网 WAN 已认证"
             else:
                 offline_count += 1
                 message = "校园网 WAN 未认证"
-                should_login = mode == "login" or offline_count >= threshold
-                if should_login and not blocked and time.monotonic() >= next_login:
-                    login(wan, server_ip, state)
-                    next_login = time.monotonic() + 300
-                    if confirm_login(wan, server_ip):
-                        message = "校园网 WAN 已认证"
-                        offline_count = 0
-                    elif mode == "login":
-                        raise Stop("暂未确认在线，请稍后执行 status")
+            should_login = offline and (mode == "login" or (not online and offline_count >= threshold))
+            if should_login and not blocked and time.monotonic() >= next_login:
+                confirmed = attempt_login(wan, server_ip, offline[0], address_mode)
+                next_login = time.monotonic() + 300
+                if confirmed:
+                    message = "校园网 WAN 已认证"
+                    offline_count = 0
+                elif mode == "login":
+                    raise Stop("暂未确认在线，请稍后执行 status")
             if message != last_message:
                 print(message, flush=True)
+                authentication_event(interface, "state", message)
                 last_message = message
             if mode == "login":
                 return 0
@@ -313,11 +448,12 @@ def run(mode, interface, server_ip, interval, threshold):
             print(str(failure), flush=True)
             blocked = True
             delay = interval
-        except (Retry, ValueError, subprocess.TimeoutExpired) as failure:
+        except (Retry, ValueError, OSError, subprocess.TimeoutExpired) as failure:
             offline_count = 0
             message = str(failure) if isinstance(failure, Retry) else "Portal 响应或接口状态无效"
             if message != last_message:
                 print(message, flush=True)
+                authentication_event(interface, "check_failed", message)
                 last_message = message
             if mode == "login":
                 return 2
@@ -325,13 +461,17 @@ def run(mode, interface, server_ip, interval, threshold):
         time.sleep(delay)
 
 
-def account_summary(interface, server_ip):
+def account_summary(interface, server_ip, address_mode="auto", server_ipv6=None):
     if not SECRETS.is_file():
         return {"message": "请先保存当前校园网账号"}
     try:
         stored = json.loads(SECRETS.read_text(encoding="utf-8"))["account"]
         wan = read_interface(interface)
-        state = check_status(wan, server_ip)
+        if address_mode == "auto":
+            state = check_status(wan, server_ip)
+        else:
+            states, _ = check_connection(wan, server_ip, address_mode, server_ipv6)
+            state = next((path for path in states if path["online"]), {"online": False})
     except (Retry, KeyError, ValueError, OSError, subprocess.TimeoutExpired):
         return {"message": "暂时无法确认当前校园网账户"}
     active = str(state.get("account") or "").strip()
@@ -342,7 +482,7 @@ def account_summary(interface, server_ip):
         family = ipaddress.ip_address(state["endpoint"]["source"]).version
         try:
             data, peer = request(
-                wan["device"], server_ip, API + "/User_info/" + action, "4.1.3",
+                wan["device"], state.get("server_ip", server_ip), API + "/User_info/" + action, "4.1.3",
                 {"account": active}, family=family,
             )
         except (Retry, ValueError, OSError, subprocess.TimeoutExpired):
@@ -366,7 +506,78 @@ def account_summary(interface, server_ip):
     return result
 
 
-def serve_rpc(mode, interface, server_ip):
+def release_source(value):
+    source = value or UPDATE_SOURCE
+    url = urlsplit(source)
+    if (url.scheme != "https" or not url.hostname or url.username or url.password
+            or url.fragment or url.query or not url.netloc.isascii()):
+        raise ValueError("更新源须为 HTTPS 发布链接或 JSON 地址")
+    match = re.fullmatch(r"/([A-Za-z0-9_.-]+)/([A-Za-z0-9_.-]+)/releases/?(?:latest)?/?", url.path)
+    if url.hostname == "github.com" and match:
+        owner, repository = match.groups()
+        if {owner, repository} & {".", ".."}:
+            raise ValueError("GitHub 仓库路径无效")
+        return f"https://github.com/{owner}/{repository}/releases/latest"
+    return urlunsplit(url)
+
+
+def stable_version(version):
+    match = re.fullmatch(r"v?(\d+)\.(\d+)\.(\d+)", str(version))
+    return tuple(map(int, match.groups())) if match else None
+
+
+def read_update():
+    try:
+        data = json.loads(UPDATE_STATE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        data = {}
+    return {"current": VERSION, **(data if isinstance(data, dict) else {})}
+
+
+def fetch_release(source):
+    target = urlsplit(source)
+    github = target.hostname == "github.com" and target.path.endswith("/releases/latest")
+    flags = (["--head", "--output", "/dev/null", "--write-out", "%{url_effective}"] if github
+             else ["--header", "Accept: application/json"])
+    result = subprocess.run(
+        ["curl", "--disable", "--proto", "=https", "--proto-redir", "=https",
+         "--location", "--max-redirs", "3", "--fail", "--silent",
+         "--connect-timeout", "5", "--max-time", "12", "--max-filesize", "1048576",
+         "--user-agent", f"blcu-portal/{VERSION}", *flags, "--url", source],
+        capture_output=True, timeout=15, check=False,
+    )
+    if result.returncode:
+        raise Retry(f"更新源访问失败（curl {result.returncode}）")
+    if not github:
+        return json.loads(result.stdout)
+    link = result.stdout.decode("ascii").strip()
+    effective = urlsplit(link)
+    prefix = target.path.removesuffix("/latest") + "/tag/"
+    if effective.hostname != "github.com" or not effective.path.lower().startswith(prefix.lower()):
+        return {}
+    return {"tag_name": effective.path[len(prefix):], "html_url": link}
+
+
+def check_update(value):
+    checked = {"checked_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+    try:
+        release = fetch_release(release_source(value))
+        latest = stable_version(release.get("tag_name"))
+        if latest is None or release.get("draft") or release.get("prerelease"):
+            raise Retry("更新源暂未发布正式版本")
+        link = str(release.get("html_url") or "")
+        page = urlsplit(link)
+        link = link if page.scheme == "https" and page.hostname and not page.username else ""
+        available = latest > stable_version(VERSION)
+        checked.update(latest=".".join(map(str, latest)), available=available, link=link,
+                       message="发现新版本" if available else "当前版本已是最新")
+    except (AttributeError, OSError, ValueError, Retry, subprocess.TimeoutExpired) as failure:
+        checked["message"] = str(failure) if isinstance(failure, Retry) else "更新源无效或响应超时"
+    write_private_json(UPDATE_STATE, checked)
+    return read_update()
+
+
+def serve_rpc(mode, interface, server_ip, address_mode, server_ipv6, update_source):
     if mode == "rpc-credentials":
         try:
             payload = json.load(sys.stdin)
@@ -377,16 +588,28 @@ def serve_rpc(mode, interface, server_ip):
             print(json.dumps({"ok": True, "message": "校园网账号已保存"}))
         return 0
 
+    if mode == "rpc-logs":
+        print(json.dumps({"entries": list(reversed(read_events()))}))
+        return 0
+    if mode == "rpc-update":
+        print(json.dumps(read_update()))
+        return 0
+    if mode == "rpc-check-update":
+        print(json.dumps(check_update(update_source)))
+        return 0
     if mode == "rpc-account":
-        print(json.dumps(account_summary(interface, server_ip)))
+        print(json.dumps(account_summary(interface, server_ip, address_mode, server_ipv6)))
         return 0
     if mode == "rpc-status":
-        print(json.dumps(snapshot(interface, server_ip)))
+        print(json.dumps(snapshot(interface, server_ip, address_mode, server_ipv6)))
         return 0
 
-    command = [sys.executable, "/usr/bin/blcu-portal", "login", "--interface", interface]
+    command = [sys.executable, "/usr/bin/blcu-portal", "login", "--interface", interface,
+               "--address-mode", address_mode]
     if server_ip:
-        command += ["--server-ip", server_ip]
+        command += ["--server-ip", str(server_ip)]
+    if server_ipv6:
+        command += ["--server-ipv6", str(server_ipv6)]
     # rpcd has a short request deadline; the client owns locking and logging.
     subprocess.Popen(
         ["/bin/sh", "-c", '"$@" 2>&1 | logger -t blcu-portal', "blcu-portal", *command],
@@ -400,34 +623,41 @@ def serve_rpc(mode, interface, server_ip):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("mode", choices=["status", "login", "watch", "configure",
-                                         "rpc-status", "rpc-login", "rpc-credentials", "rpc-account"])
+                                         "rpc-status", "rpc-login", "rpc-credentials", "rpc-account",
+                                         "rpc-logs", "rpc-update", "rpc-check-update", "update-watch"])
     parser.add_argument("--interface", default="wan")
     parser.add_argument("--server-ip", default="", help="认证服务器 IP 地址，留空使用系统 DNS")
+    parser.add_argument("--address-mode", choices=["auto", "ipv4", "ipv6", "dual"], default="auto")
+    parser.add_argument("--server-ipv6", default="")
+    parser.add_argument("--update-source", default="")
+    parser.add_argument("--update-hours", type=int, default=24)
     parser.add_argument("--interval", type=int, default=INTERVAL)
     parser.add_argument("--threshold", type=int, default=2)
     args = parser.parse_args()
     if not 15 <= args.interval <= 3600 or not 1 <= args.threshold <= 10:
         parser.error("检测间隔须为 15–3600 秒，连续离线次数须为 1–10")
+    if not 1 <= args.update_hours <= 168:
+        parser.error("更新检查周期须为 1–168 小时")
     try:
         server_ip = ipaddress.ip_address(args.server_ip) if args.server_ip else None
+        server_ipv6 = ipaddress.IPv6Address(args.server_ipv6) if args.server_ipv6 else None
     except ValueError:
         parser.error("认证服务器 IP 地址无效")
     if not re.fullmatch(r"[A-Za-z0-9_][A-Za-z0-9_-]*", args.interface):
         parser.error("接口应为 LuCI 中的逻辑接口名")
     try:
         if args.mode.startswith("rpc-"):
-            return serve_rpc(args.mode, args.interface, server_ip)
+            return serve_rpc(args.mode, args.interface, server_ip, args.address_mode,
+                             server_ipv6, args.update_source)
+        if args.mode == "update-watch":
+            while True:
+                check_update(args.update_source)
+                time.sleep(args.update_hours * 3600)
         if args.mode == "configure":
             configure()
             return 0
-        if args.mode == "status":
-            return run(args.mode, args.interface, server_ip, args.interval, args.threshold)
-        with open("/var/lock/blcu-portal.lock", "a") as lock:
-            try:
-                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            except BlockingIOError as failure:
-                raise Stop("已有登录程序或后台服务在运行") from failure
-            return run(args.mode, args.interface, server_ip, args.interval, args.threshold)
+        return run(args.mode, args.interface, server_ip, args.interval, args.threshold,
+                   args.address_mode, server_ipv6)
     except (Stop, OSError) as failure:
         print(str(failure) if isinstance(failure, Stop) else "无法读取本地配置或运行依赖")
         return 3

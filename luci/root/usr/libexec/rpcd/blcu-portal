@@ -1,11 +1,14 @@
 #!/bin/sh
 case "$1:$2" in
 	list:)
-		printf '%s\n' '{"status":{},"account":{},"credentials":{"account":"String","password":"String"},"login":{}}'
+		printf '%s\n' '{"status":{},"account":{},"credentials":{"account":"String","password":"String"},"login":{},"logs":{},"update":{},"check-update":{}}'
 		;;
-	call:status|call:account|call:credentials|call:login)
+	call:status|call:account|call:credentials|call:login|call:logs|call:update|call:check-update)
 		exec /usr/bin/blcu-portal "rpc-$2" \
 			--interface "$(uci -q get blcu-portal.main.interface || printf wan)" \
-			--server-ip "$(uci -q get blcu-portal.main.server_ip)"
+			--server-ip "$(uci -q get blcu-portal.main.server_ip)" \
+			--server-ipv6 "$(uci -q get blcu-portal.main.server_ipv6)" \
+			--address-mode "$(uci -q get blcu-portal.main.address_mode || printf auto)" \
+			--update-source "$(uci -q get blcu-portal.main.update_source)"
 		;;
 esac
