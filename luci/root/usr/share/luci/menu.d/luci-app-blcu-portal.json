@@ -2,7 +2,33 @@
   "admin/services/blcu-portal": {
     "title": "北语校园网",
     "order": 80,
-    "action": { "type": "view", "path": "blcu-portal/config" },
-    "depends": { "acl": ["luci-app-blcu-portal"], "uci": { "blcu-portal": true } }
+    "action": {
+      "type": "view",
+      "path": "blcu-portal/config"
+    },
+    "depends": {
+      "acl": [
+        "luci-app-blcu-portal"
+      ],
+      "uci": {
+        "blcu-portal": true
+      }
+    }
+  },
+  "admin/network/network/blcu-pool": {
+    "title": "北语账号池",
+    "order": 80,
+    "action": {
+      "type": "view",
+      "path": "blcu-portal/config"
+    },
+    "depends": {
+      "acl": [
+        "luci-app-blcu-portal"
+      ],
+      "uci": {
+        "blcu-portal": true
+      }
+    }
   }
 }

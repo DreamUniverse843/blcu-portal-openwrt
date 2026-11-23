@@ -1,6 +1,7 @@
 import importlib.machinery
 import importlib.util
 import ipaddress
+from io import StringIO
 import json
 from pathlib import Path
 import subprocess
@@ -140,6 +141,104 @@ class PortalTest(unittest.TestCase):
         response = subprocess.CompletedProcess([], 0, b'{"tag_name":"1.0.0","draft":false}')
         with patch.object(client.subprocess, "run", return_value=response):
             self.assertEqual(client.fetch_release("https://mirror.example/latest.json")["tag_name"], "1.0.0")
+
+    def test_pool_keeps_one_account_per_uplink_and_never_returns_passwords(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            primary = root / "credentials.json"
+            primary.write_text('{"account":"primary","password":"main-secret"}')
+            with (patch.object(client, "POOL", root / "accounts.json"),
+                  patch.object(client, "POOL_STATUS", root / "state.json"),
+                  patch.object(client, "SECRETS", primary),
+                  patch.object(client.subprocess, "run", return_value=subprocess.CompletedProcess(
+                      [], 0, b"network.interface.wwan2"))):
+                with self.assertRaises(client.Stop):
+                    client.edit_pool("wwan", {"interface": "wwan", "account": "x", "password": "test"})
+                client.edit_pool("wwan", {"interface": "wwan2", "account": "roommate",
+                                          "password": "example", "enabled": "1"})
+                client.edit_pool("wwan", {"interface": "wwan2", "account": "roommate",
+                                          "password": "", "enabled": "0"})
+                self.assertEqual(client.read_mapping(client.POOL)["wwan2"]["password"], "example")
+                self.assertEqual(client.pool_rows()[0]["status"]["state"], "disabled")
+                self.assertNotIn("password", client.pool_rows()[0])
+                with self.assertRaises(client.Stop):
+                    client.edit_pool("wwan", {"interface": "wwan3", "account": "roommate",
+                                              "password": "different", "enabled": "1"})
+                client.edit_pool("wwan", {"interface": "wwan2"}, remove=True)
+                self.assertEqual(client.pool_rows(), [])
+
+    def test_pool_rejects_virtual_or_duplicate_devices(self):
+        physical = {**self.wan, "name": "wwan2", "device": "phy2-sta0", "mac": "02:00:00:00:00:02"}
+        duplicate = {**physical, "name": "wwan3"}
+        virtual = {**physical, "name": "wwan4", "device": "macvlan0", "kind": "macvlan"}
+        links = {"wwan": self.wan, "wwan2": physical, "wwan3": duplicate, "wwan4": virtual}
+        other = {name: {"enabled": True, "account": name} for name in links if name != "wwan"}
+        with (patch.object(client, "read_interface", side_effect=links.__getitem__),
+              patch.object(client, "read_mapping", return_value={"account": "primary"})):
+            candidates, rejected = client.pool_probe("wwan", other)
+        self.assertEqual(list(candidates), ["wwan2"])
+        self.assertIn("实际设备或 MAC", rejected["wwan3"]["message"])
+        self.assertIn("实际网络设备", rejected["wwan4"]["message"])
+
+    def test_pool_never_submits_for_another_online_account(self):
+        entry = {"enabled": True, "account": "roommate", "password": "example"}
+        wan = {**self.wan, "name": "wwan2"}
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            with (patch.object(client, "POOL", root / "accounts.json"),
+                  patch.object(client, "POOL_STATUS", root / "state.json"),
+                  patch.object(client, "pool_probe", return_value=({"wwan2": wan}, {})),
+                  patch.object(client, "check_connection", return_value=(
+                      [{"online": True, "account": "someone-else"}], {})),
+                  patch.object(client, "attempt_login") as login):
+                client.write_private_json(client.POOL, {"wwan2": entry})
+                client.pool_cycle("wwan", None, "auto", None, 1, {})
+                self.assertEqual(client.pool_rows()[0]["status"]["state"], "failed")
+                login.assert_not_called()
+
+    def test_pool_confirmation_checks_the_authenticated_account(self):
+        with (patch.object(client.time, "sleep"),
+              patch.object(client, "check_status", return_value={
+                  "online": True, "account": "other-account"
+              }),
+              patch.object(client, "observe_login") as observe):
+            with self.assertRaises(client.Stop):
+                client.confirm_login(self.wan, None, expected_account="roommate")
+            observe.assert_not_called()
+
+    def test_pool_mode_can_reuse_the_existing_uplink_and_account(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            old = root / "credentials.json"
+            old.write_text('{"account":"student","password":"secret"}')
+            with (patch.object(client, "POOL", root / "accounts.json"),
+                  patch.object(client, "POOL_STATUS", root / "pool-status.json"),
+                  patch.object(client, "SECRETS", old),
+                  patch.object(client.sys, "stdin", StringIO(
+                      '{"interface":"wwan","account":":main-credentials","enabled":"1"}')),
+                  patch.object(client.subprocess, "run", return_value=subprocess.CompletedProcess(
+                      [], 0, b"network.interface.wwan")),
+                  patch("builtins.print")):
+                client.serve_rpc("rpc-pool-save", "wwan", None, "auto", None, "", True, "pool")
+                self.assertEqual(client.selected_pool_member()[0], "wwan")
+                self.assertEqual(client.pool_rows()[0]["account"], "student")
+
+    def test_ipv6_upstream_shows_dhcpv6_child_but_excludes_other_networks(self):
+        wire = {"interface": [
+            {"interface": "wwan", "up": True, "l3_device": "phy1-sta0"},
+            {"interface": "wwan_6", "up": True, "proto": "dhcpv6", "l3_device": "phy1-sta0",
+             "ipv6-address": [{"address": "2001:db8::20", "mask": 128}],
+             "ipv6-prefix": [{"address": "2001:db8:1234::", "mask": 48, "valid": 3600}],
+             "route": [{"target": "::", "mask": 0}], "dns-server": ["2001:db8::53", "192.0.2.53"]},
+            {"interface": "lan", "up": True, "l3_device": "br-lan"}
+        ]}
+        with patch.object(client.subprocess, "run", return_value=subprocess.CompletedProcess(
+                [], 0, json.dumps(wire).encode())):
+            uplinks = client.ipv6_upstreams("wwan", False)["upstreams"]
+        self.assertEqual([entry["interface"] for entry in uplinks], ["wwan", "wwan_6"])
+        self.assertTrue(uplinks[1]["default_route"])
+        self.assertEqual(uplinks[1]["prefixes"][0]["prefix"], "2001:db8:1234::/48")
+        self.assertEqual(uplinks[1]["dns"], ["2001:db8::53"])
 
 
 if __name__ == "__main__":

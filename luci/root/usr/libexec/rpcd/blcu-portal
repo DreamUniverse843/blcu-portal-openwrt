@@ -1,14 +1,16 @@
 #!/bin/sh
 case "$1:$2" in
 	list:)
-		printf '%s\n' '{"status":{},"account":{},"credentials":{"account":"String","password":"String"},"login":{},"logs":{},"update":{},"check-update":{}}'
+		printf '%s\n' '{"status":{},"account":{},"credentials":{"account":"String","password":"String"},"login":{},"logs":{},"update":{},"check-update":{},"pool":{},"ipv6":{},"pool-save":{"interface":"String","account":"String","password":"String","enabled":"String"},"pool-remove":{"interface":"String"}}'
 		;;
-	call:status|call:account|call:credentials|call:login|call:logs|call:update|call:check-update)
+	call:status|call:account|call:credentials|call:login|call:logs|call:update|call:check-update|call:pool|call:ipv6|call:pool-save|call:pool-remove)
 		exec /usr/bin/blcu-portal "rpc-$2" \
 			--interface "$(uci -q get blcu-portal.main.interface || printf wan)" \
 			--server-ip "$(uci -q get blcu-portal.main.server_ip)" \
 			--server-ipv6 "$(uci -q get blcu-portal.main.server_ipv6)" \
 			--address-mode "$(uci -q get blcu-portal.main.address_mode || printf auto)" \
-			--update-source "$(uci -q get blcu-portal.main.update_source)"
+			--update-source "$(uci -q get blcu-portal.main.update_source)" \
+			--pool-enabled "$(uci -q get blcu-portal.main.pool_enabled || printf 0)" \
+			--uplink-mode "$(uci -q get blcu-portal.main.uplink_mode || printf legacy)"
 		;;
 esac

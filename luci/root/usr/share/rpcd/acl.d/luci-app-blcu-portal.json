@@ -10,7 +10,9 @@
           "status",
           "account",
           "logs",
-          "update"
+          "update",
+          "pool",
+          "ipv6"
         ]
       }
     },
@@ -22,7 +24,9 @@
         "blcu-portal": [
           "credentials",
           "login",
-          "check-update"
+          "check-update",
+          "pool-save",
+          "pool-remove"
         ]
       }
     }
