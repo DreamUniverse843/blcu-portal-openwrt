@@ -1,0 +1,8 @@
+{
+  "admin/services/blcu-portal": {
+    "title": "北语校园网",
+    "order": 80,
+    "action": { "type": "view", "path": "blcu-portal/config" },
+    "depends": { "acl": ["luci-app-blcu-portal"], "uci": { "blcu-portal": true } }
+  }
+}

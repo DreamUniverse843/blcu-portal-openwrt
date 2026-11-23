@@ -1,0 +1,118 @@
+name: Build and release
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - run: |
+          python3 -m unittest discover -s tests
+          node --check luci/htdocs/luci-static/resources/view/blcu-portal/config.js
+          sh -n files/blcu-portal.init
+          sh -n luci/root/usr/libexec/rpcd/blcu-portal
+          find luci/root -name '*.json' -exec python3 -m json.tool '{}' /dev/null \;
+      - id: matrix
+        run: printf 'value=%s\n' "$(jq -c . .github/sdk-matrix.json)" >> "$GITHUB_OUTPUT"
+      - name: Validate the version tag and changelog
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          test "v$(sed -n 's/^PKG_VERSION:=//p' Makefile)" = "$TAG"
+          python3 .github/release-notes.py "$TAG" > /dev/null
+
+  build:
+    name: ${{ matrix.name }}
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.verify.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install SDK build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y build-essential clang flex bison gawk gettext gcc-multilib \
+            libncurses-dev libssl-dev libelf-dev python3-setuptools rsync swig unzip xsltproc zlib1g-dev zstd
+      - name: Download and verify official SDK
+        env:
+          SDK_URL: ${{ matrix.sdk }}
+          SDK_SHA256: ${{ matrix.sha256 }}
+        run: |
+          archive="$RUNNER_TEMP/${SDK_URL##*/}"
+          curl -fsSL --retry 3 "$SDK_URL" -o "$archive"
+          printf '%s  %s\n' "$SDK_SHA256" "$archive" | sha256sum --check
+          mkdir "$RUNNER_TEMP/sdk"
+          tar -xf "$archive" -C "$RUNNER_TEMP/sdk" --strip-components=1
+          rm "$archive"
+      - name: Build service and LuCI packages
+        env:
+          BUILD_NAME: ${{ matrix.name }}
+          PACKAGE_FORMAT: ${{ matrix.format }}
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/sdk"
+          ./scripts/feeds update -a
+          ./scripts/feeds install luci-base python3 curl ca-bundle rpcd ubus
+          mkdir -p package/blcu-portal
+          cp "$GITHUB_WORKSPACE/Makefile" "$GITHUB_WORKSPACE/LICENSE" package/blcu-portal/
+          cp -R "$GITHUB_WORKSPACE/files" "$GITHUB_WORKSPACE/luci" package/blcu-portal/
+          printf '%s\n' CONFIG_PACKAGE_blcu-portal=m CONFIG_PACKAGE_luci-app-blcu-portal=m >> .config
+          make defconfig
+          make -j2 package/blcu-portal/compile V=s
+          mkdir -p "$GITHUB_WORKSPACE/dist"
+          for package in blcu-portal luci-app-blcu-portal; do
+            mapfile -t packages < <(find bin -type f \( -name "$package-*.$PACKAGE_FORMAT" -o -name "${package}_*.$PACKAGE_FORMAT" \))
+            test "${#packages[@]}" -eq 1
+            cp "${packages[0]}" "$GITHUB_WORKSPACE/dist/$BUILD_NAME-${packages[0]##*/}"
+          done
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ${{ matrix.name }}
+          path: dist/
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Publish packages and changelog
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          python3 .github/release-notes.py "$TAG" > "$RUNNER_TEMP/release-notes.md"
+          (cd dist && sha256sum -- * > SHA256SUMS)
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+            gh release edit "$TAG" --title "Release ${TAG#v}" --notes-file "$RUNNER_TEMP/release-notes.md"
+          else
+            gh release create "$TAG" dist/* --verify-tag --title "Release ${TAG#v}" --notes-file "$RUNNER_TEMP/release-notes.md"
+          fi

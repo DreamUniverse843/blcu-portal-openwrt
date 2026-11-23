@@ -1,0 +1,11 @@
+#!/bin/sh
+case "$1:$2" in
+	list:)
+		printf '%s\n' '{"status":{},"account":{},"credentials":{"account":"String","password":"String"},"login":{}}'
+		;;
+	call:status|call:account|call:credentials|call:login)
+		exec /usr/bin/blcu-portal "rpc-$2" \
+			--interface "$(uci -q get blcu-portal.main.interface || printf wan)" \
+			--server-ip "$(uci -q get blcu-portal.main.server_ip)"
+		;;
+esac

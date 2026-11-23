@@ -1,0 +1,123 @@
+{
+  "include": [
+    {
+      "name": "openwrt-23.05.6-ramips-mt7621",
+      "architecture": "mipsel_24kc",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/ramips/mt7621/openwrt-sdk-23.05.6-ramips-mt7621_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "5600a58516ac0d0281800fabf558c6cf93d580e7e2d6044aa45ae102e713b7b7"
+    },
+    {
+      "name": "openwrt-24.10.8-ramips-mt7621",
+      "architecture": "mipsel_24kc",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/ramips/mt7621/openwrt-sdk-24.10.8-ramips-mt7621_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "9dd11b0517883b016ad7684f5c408a3483eec5b2455b2ffe004c9edd84063e45"
+    },
+    {
+      "name": "openwrt-25.12.6-ramips-mt7621",
+      "architecture": "mipsel_24kc",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/ramips/mt7621/openwrt-sdk-25.12.6-ramips-mt7621_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "e4e3f25962ddf3ed55207fed456ecd1d6e55f3482c976b3183a640df6ef0adf0"
+    },
+    {
+      "name": "openwrt-25.12.6-ath79-generic",
+      "architecture": "mips_24kc",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/ath79/generic/openwrt-sdk-25.12.6-ath79-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "941c19d4787944e569bc0ca7fb4b6d0f4387ba24d188900bf0ffb6787fee31c6"
+    },
+    {
+      "name": "openwrt-25.12.6-ipq40xx-generic",
+      "architecture": "arm_cortex-a7_neon-vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/ipq40xx/generic/openwrt-sdk-25.12.6-ipq40xx-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "72b2a064190a46b8026e192e29b8ff357dc040850eb3309573124509acbb8a05"
+    },
+    {
+      "name": "openwrt-25.12.6-mediatek-filogic",
+      "architecture": "aarch64_cortex-a53",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/mediatek/filogic/openwrt-sdk-25.12.6-mediatek-filogic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1c04ac47bdfc361d6aab299eb520d570e368013dedcb8d29cf39dc7168ae642e"
+    },
+    {
+      "name": "openwrt-25.12.6-x86-64",
+      "architecture": "x86_64",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/x86/64/openwrt-sdk-25.12.6-x86-64_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1864152619092e781fa36a401960c8e9ae42d6a364c44ee5f0b197ca5f3c0fcc"
+    },
+    {
+      "name": "openwrt-25.12.6-starfive-generic",
+      "architecture": "riscv64_generic",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/starfive/generic/openwrt-sdk-25.12.6-starfive-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "4551bd535a7a4cf668a3c323f906a373bfdb44d5f830b9922c64ef53543ba260"
+    },
+    {
+      "name": "openwrt-25.12.6-loongarch64-generic",
+      "architecture": "loongarch64_generic",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/loongarch64/generic/openwrt-sdk-25.12.6-loongarch64-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1d7d25860d2acae1074317fde29db49e18c9ba34fa1441d48b40b52c6704d730"
+    },
+    {
+      "name": "immortalwrt-23.05.7-ramips-mt7621",
+      "architecture": "mipsel_24kc",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/ramips/mt7621/immortalwrt-sdk-23.05.7-ramips-mt7621_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "5e9f12e819a9e806d06040efb52ccedb0bf2b1856b810a846b50e3ba9c60dedd"
+    },
+    {
+      "name": "immortalwrt-24.10.7-ramips-mt7621",
+      "architecture": "mipsel_24kc",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/ramips/mt7621/immortalwrt-sdk-24.10.7-ramips-mt7621_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "2665de309600ae30e4d64f8d9142bd2ccef831b8ce42b1f66bde225c0e7995b7"
+    },
+    {
+      "name": "immortalwrt-25.12.1-ramips-mt7621",
+      "architecture": "mipsel_24kc",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/ramips/mt7621/immortalwrt-sdk-25.12.1-ramips-mt7621_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1b673705ec54ed9db4e56521c44c49d4001aeba1ef148bc44cb2c7215406c658"
+    },
+    {
+      "name": "immortalwrt-25.12.2-ramips-mt7621",
+      "architecture": "mipsel_24kc",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/ramips/mt7621/immortalwrt-sdk-25.12.2-ramips-mt7621_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "8b8c6a61c8f62ad984895607d7b7f4893d46a1528212e3460b5b6c60f85d3d35"
+    },
+    {
+      "name": "immortalwrt-25.12.2-ath79-generic",
+      "architecture": "mips_24kc",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/ath79/generic/immortalwrt-sdk-25.12.2-ath79-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "fed5015c3a35d5cf2b8932e7a14ee7f05ddf403d5319005005a7b0e900ca5c7b"
+    },
+    {
+      "name": "immortalwrt-25.12.2-ipq40xx-generic",
+      "architecture": "arm_cortex-a7_neon-vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/ipq40xx/generic/immortalwrt-sdk-25.12.2-ipq40xx-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "642163c186970b09a71d688ba14f6ce677dfa08d86f05567e56ed6a60f6d82cc"
+    },
+    {
+      "name": "immortalwrt-25.12.2-mediatek-filogic",
+      "architecture": "aarch64_cortex-a53",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/mediatek/filogic/immortalwrt-sdk-25.12.2-mediatek-filogic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "03c688afec12a97ab2d28daa6469a467be18a7d123da6b278002f897de66ef62"
+    },
+    {
+      "name": "immortalwrt-25.12.2-x86-64",
+      "architecture": "x86_64",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/x86/64/immortalwrt-sdk-25.12.2-x86-64_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "4d4631f134c2f27215a91aa7ef5bf9a01ea96c2450d3b8a5c38048c32462ac60"
+    }
+  ]
+}

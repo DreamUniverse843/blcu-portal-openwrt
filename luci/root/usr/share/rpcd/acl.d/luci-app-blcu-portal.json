@@ -1,0 +1,13 @@
+{
+  "luci-app-blcu-portal": {
+    "description": "Configure and check the BLCU campus portal",
+    "read": {
+      "uci": ["blcu-portal"],
+      "ubus": { "blcu-portal": ["status", "account"] }
+    },
+    "write": {
+      "uci": ["blcu-portal"],
+      "ubus": { "blcu-portal": ["credentials", "login"] }
+    }
+  }
+}
