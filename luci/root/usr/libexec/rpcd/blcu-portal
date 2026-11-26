@@ -1,9 +1,9 @@
 #!/bin/sh
 case "$1:$2" in
 	list:)
-		printf '%s\n' '{"status":{},"account":{},"credentials":{"account":"String","password":"String"},"login":{},"logs":{},"update":{},"check-update":{},"pool":{},"ipv6":{},"pool-save":{"interface":"String","account":"String","password":"String","enabled":"String"},"pool-remove":{"interface":"String"}}'
+		printf '%s\n' '{"status":{},"account":{},"credentials":{"account":"String","password":"String"},"login":{},"logout":{"interface":"String"},"resume":{"interface":"String"},"logs":{},"update":{},"check-update":{},"pool":{},"ipv6":{},"pool-save":{"interface":"String","account":"String","password":"String","enabled":"String"},"pool-remove":{"interface":"String"}}'
 		;;
-	call:status|call:account|call:credentials|call:login|call:logs|call:update|call:check-update|call:pool|call:ipv6|call:pool-save|call:pool-remove)
+	call:status|call:account|call:credentials|call:login|call:logout|call:resume|call:logs|call:update|call:check-update|call:pool|call:ipv6|call:pool-save|call:pool-remove)
 		exec /usr/bin/blcu-portal "rpc-$2" \
 			--interface "$(uci -q get blcu-portal.main.interface || printf wan)" \
 			--server-ip "$(uci -q get blcu-portal.main.server_ip)" \

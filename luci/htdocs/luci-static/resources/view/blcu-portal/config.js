@@ -29,6 +29,18 @@ const poolRemove = rpc.declare({
 const ipv6State = rpc.declare({ object: 'blcu-portal', method: 'ipv6', reject: true });
 const login = rpc.declare({ object: 'blcu-portal', method: 'login', reject: true });
 
+const logout = rpc.declare({ object: 'blcu-portal', method: 'logout', params: [ 'interface' ], reject: true });
+const resume = rpc.declare({ object: 'blcu-portal', method: 'resume', params: [ 'interface' ], reject: true });
+
+async function sessionAction(paused, name) {
+	if (!paused && !window.confirm(_('退出此上联的校园网会话？自动认证将暂停，远程连接可能中断。')))
+		return null;
+	const result = await (paused ? resume(name) : logout(name));
+	if (!result.ok)
+		throw new Error(result.message);
+	return result;
+}
+
 function showError(error) {
 	ui.addNotification(null, E('p', {}, error.message || String(error)));
 }
@@ -95,6 +107,7 @@ function statusRows(data) {
 	return keyValues([
 		[ _('插件版本'), data.version ],
 		[ _('认证状态'), data.message ],
+		[ _('自动认证暂停'), data.paused ? _('已暂停') : _('否') ],
 		[ _('连接方式'), data.connection_mode === 'pool' ? _('账号池') : _('单接口') ],
 		[ _('地址族状态'), (data.paths || []).map(pathLabel).join(' / ') ],
 		[ _('校园网接口'), data.interface ],
@@ -151,12 +164,27 @@ return view.extend({
 		const details = E('dl', { class: 'blcu-key-values', 'aria-live': 'polite' }, statusRows(current));
 		const feedback = E('p', { role: 'status', class: 'blcu-feedback' });
 		let checking = false;
+		let liveState = current;
+		const session = action(this, current.paused ? _('恢复认证') : _('退出登录'), async () => {
+			try {
+				const response = await sessionAction(liveState.paused, liveState.interface || '');
+				if (response)
+					feedback.textContent = response.message;
+				await refreshStatus();
+			} catch (error) {
+				showError(error);
+			}
+		});
+		session.disabled = !current.paused && !current.ok;
 		const refreshStatus = async () => {
 			if (checking)
 				return;
 			checking = true;
 			try {
-				details.replaceChildren(...statusRows(await status()));
+				liveState = await status();
+				details.replaceChildren(...statusRows(liveState));
+				session.textContent = liveState.paused ? _('恢复认证') : _('退出登录');
+				session.disabled = !liveState.paused && !liveState.ok;
 			} catch (error) {
 				details.replaceChildren(...statusRows({ message: _('状态查询失败') }));
 			} finally {
@@ -201,7 +229,7 @@ return view.extend({
 		`);
 		panel(section, 'status', '_status', '', dashboardStyle,
 			E('div', { class: 'blcu-dashboard' }, [
-				card(_('主连接'), [ refresh, manual ], feedback, details),
+				card(_('主连接'), [ refresh, manual, session ], feedback, details),
 				card(_('校园网账户'), [ updateAccount ], accountMessage, usage)
 			]));
 
@@ -296,7 +324,19 @@ return view.extend({
 					].map(label => E('th', { class: 'th', scope: 'col' }, label))),
 					...list.map(entry => {
 						const state = entry.status || {};
-						const buttons = toolbar(
+						const exit = action(this, entry.paused ? _('恢复认证') : _('退出登录'), async () => {
+							try {
+								const response = await sessionAction(entry.paused, entry.interface);
+								if (response) {
+									ui.addNotification(null, E('p', {}, response.message), 'info');
+									await refreshPool();
+								}
+							} catch (error) {
+								showError(error);
+							}
+						});
+						exit.disabled = !entry.paused && state.state !== 'online';
+						const buttons = toolbar(exit,
 							action(this, _('编辑'), () => {
 								if (![...interfaces.options].some(option => option.value === entry.interface))
 									interfaces.add(E('option', { value: entry.interface }, entry.interface));
@@ -469,7 +509,10 @@ return view.extend({
 			failed: _('认证失败'),
 			unconfirmed: _('认证结果待确认'),
 			state: _('状态变化'),
-			check_failed: _('状态检测失败')
+			check_failed: _('状态检测失败'),
+			logout: _('退出登录'),
+			logout_pending: _('退出待确认'),
+			logout_failed: _('退出失败')
 		};
 		const refreshLogs = async () => {
 			try {

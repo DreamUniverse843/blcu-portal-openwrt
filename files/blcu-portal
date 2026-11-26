@@ -24,7 +24,9 @@ SECRETS = Path("/etc/blcu-portal/credentials.json")
 LAST_LOGIN = SECRETS.parent / "last-login.json"
 EVENT_LOG = SECRETS.parent / "authentication-log.json"
 UPDATE_STATE = Path("/tmp/blcu-portal-update.json")
-VERSION = "0.5.0"
+VERSION = "0.5.1"
+PAUSED = SECRETS.parent / "paused"
+AUTH_LOCK = Path("/var/lock/blcu-portal.lock")
 POOL = SECRETS.parent / "accounts.json"
 POOL_STATUS = Path("/tmp/blcu-portal-pool.json")
 UPDATE_SOURCE = "https://github.com/DreamUniverse843/blcu-portal-openwrt/releases/latest"
@@ -332,7 +334,7 @@ def login(wan, server_ip, state, *, dual=False, credentials=None):
 def snapshot(interface, server_ip, address_mode="auto", server_ipv6=None):
     result = {"ok": False, "state": "unknown", "interface": interface,
               "server_ip": str(server_ip or ""), "status_port": 443, "login_port": 802,
-              "last_login": saved_login(interface, server_ip), "paths": [], "version": VERSION}
+              "last_login": saved_login(interface, server_ip), "paths": [], "version": VERSION, "paused": is_paused(interface)}
     try:
         wan = read_interface(interface)
         result.update(device=wan["device"], mac=wan["mac"],
@@ -375,12 +377,74 @@ def confirm_login(wan, server_ip, session=None, *, history_ip=None, expected_acc
     return False
 
 
+def is_paused(interface):
+    return (PAUSED / interface).exists()
+
+
+def clear_pause(interface):
+    (PAUSED / interface).unlink(missing_ok=True)
+
+
+def logout_current(interface, server_ip, address_mode, server_ipv6, expected=None):
+    with AUTH_LOCK.open("a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        wan = read_interface(interface)
+        states, _ = check_connection(wan, server_ip, address_mode, server_ipv6)
+        if not states:
+            raise Stop("无法确认当前会话")
+        if expected and any(state["online"] and str(state.get("account") or "").strip() != expected
+                            for state in states):
+            raise Stop("当前在线账号与账号池设置不一致")
+        PAUSED.mkdir(mode=0o700, parents=True, exist_ok=True)
+        (PAUSED / interface).touch(mode=0o600)
+        for state in states:
+            if not state["online"]:
+                continue
+            family = state_family(state)
+            target = state["server_ip"]
+            fresh = check_status(wan, target, family)
+            if not fresh["online"]:
+                continue
+            if expected and str(fresh.get("account") or "").strip() != expected:
+                raise Stop("当前在线账号与账号池设置不一致")
+            source = fresh["endpoint"]["source"]
+            ipv4 = source if family == 4 else next(iter(wan["addresses"][4]), "")
+            ipv6 = source if family == 6 else ""
+            config, peer = request(wan["device"], target, API + "/page/loadConfig", "4.X",
+                                   {"wlan_user_ip": base64.b64encode(ipv4.encode()).decode(),
+                                    "wlan_user_ipv6": base64.b64encode(ipv6.encode()).decode(),
+                                    "wlan_vlan_id": "1"}, family=family)
+            settings = config.get("data") or {}
+            ac_logout = str(settings.get("ac_logout") or 0)
+            if (peer["source"] != source or str(settings.get("login_method")) != "1"
+                    or ac_logout not in {"0", "1"}):
+                raise Stop("Portal 未声明当前接入支持本机注销")
+            mac = fresh["portal_mac"] or wan["mac"] or "000000000000"
+            result, _ = request(
+                wan["device"], target, API + "/logout", "4.1.3",
+                {"login_method": "1", "user_account": "drcom", "user_password": "123",
+                 "ac_logout": ac_logout, "register_mode": settings.get("register_mode") or "0",
+                 "wlan_user_ip": ipv4, "wlan_user_ipv6": ipv6, "wlan_vlan_id": "1",
+                 "wlan_user_mac": mac.replace(":", ""), "wlan_ac_ip": "", "wlan_ac_name": ""},
+                family=family,
+            )
+            if str(result.get("result")) not in {"1", "ok"} and check_status(wan, target, family)["online"]:
+                raise Stop("Portal 拒绝注销当前会话")
+        states, failures = check_connection(wan, server_ip, address_mode, server_ipv6)
+        if not states or failures or any(state["online"] for state in states):
+            authentication_event(interface, "logout_pending", "已暂停自动认证，注销结果待确认")
+            return
+        authentication_event(interface, "logout", "已退出，自动认证已暂停")
+
+
 def attempt_login(wan, server_ip, session, address_mode, credentials=None):
-    with open("/var/lock/blcu-portal.lock", "a") as lock:
+    with AUTH_LOCK.open("a") as lock:
         try:
             fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         except BlockingIOError as failure:
             raise Retry("已有认证请求正在运行") from failure
+        if is_paused(wan["name"]):
+            return False
         family = state_family(session)
         expected = credentials["account"] if credentials else None
         authentication_event(wan["name"], "attempt", family=family)
@@ -440,7 +504,7 @@ def run(mode, interface, server_ip, interval, threshold, address_mode="auto", se
                 offline_count += 1
                 message = "校园网 WAN 未认证"
             should_login = offline and (mode == "login" or (not online and offline_count >= threshold))
-            if should_login and not blocked and time.monotonic() >= next_login:
+            if should_login and not is_paused(interface) and not blocked and time.monotonic() >= next_login:
                 confirmed = attempt_login(wan, server_ip, offline[0], address_mode)
                 next_login = time.monotonic() + 300
                 if confirmed:
@@ -568,7 +632,7 @@ def pool_rows():
     current = read_mapping(POOL_STATUS)
     return [
         {"interface": name, "account": entry["account"], "enabled": entry["enabled"],
-         "status": current.get(name, {"message": "等待检查"}) if entry["enabled"] else
+         "paused": is_paused(name), "status": current.get(name, {"message": "等待检查"}) if entry["enabled"] else
          {"state": "disabled", "message": "已停用"}}
         for name, entry in read_mapping(POOL).items()
     ]
@@ -652,7 +716,9 @@ def pool_cycle(primary, server_ip, address_mode, server_ipv6, threshold, previou
             else:
                 count += 1
                 status.update(state="offline", message="未认证")
-                if blocked:
+                if is_paused(name):
+                    status["message"] = "已暂停自动认证"
+                elif blocked:
                     status["message"] = "上次认证失败，更新账号后重试"
                 elif count >= threshold and time.monotonic() >= next_due:
                     session = dict(paths[0], portal_mac=None)
@@ -837,6 +903,33 @@ def configured_status(interface, server_ip, address_mode, server_ipv6, exclusive
 def serve_rpc(mode, interface, server_ip, address_mode, server_ipv6, update_source,
               pool_enabled, uplink_mode):
     exclusive = uplink_mode == "pool"
+    if mode in {"rpc-logout", "rpc-resume"}:
+        try:
+            payload = json.load(sys.stdin)
+            target = payload.get("interface") or (selected_pool_member()[0] if exclusive else interface)
+            args = ["--interface", target] if isinstance(target, str) else []
+            if not args or not re.fullmatch(r"[A-Za-z0-9_][A-Za-z0-9_-]*", target):
+                raise Stop("未选择有效的校园网上联")
+            pooled = exclusive or target != interface
+            if pooled and (not pool_enabled or target not in read_mapping(POOL)):
+                raise Stop("该接口未加入当前账号池")
+            if mode == "rpc-resume":
+                clear_pause(target)
+                print(json.dumps({"ok": True, "message": "已恢复该接口的自动认证"}))
+                return 0
+            args += ["--address-mode", address_mode, "--server-ip", str(server_ip or ""),
+                     "--server-ipv6", str(server_ipv6 or "")]
+            if pooled:
+                args.append("--pool-member")
+            subprocess.Popen([sys.executable, "/usr/bin/blcu-portal", "logout", *args],
+                             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                             stderr=subprocess.DEVNULL, start_new_session=True)
+        except (Stop, OSError, ValueError, AttributeError) as failure:
+            print(json.dumps({"ok": False, "message": str(failure) if isinstance(failure, Stop)
+                              else "无法执行此操作"}))
+        else:
+            print(json.dumps({"ok": True, "message": "已请求退出登录，请刷新状态或查看日志"}))
+        return 0
     if mode == "rpc-credentials":
         try:
             payload = json.load(sys.stdin)
@@ -920,10 +1013,11 @@ def serve_rpc(mode, interface, server_ip, address_mode, server_ipv6, update_sour
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("mode", choices=["status", "login", "watch", "configure",
+    parser.add_argument("mode", choices=["status", "login", "logout", "watch", "configure", "rpc-logout", "rpc-resume",
                                          "rpc-status", "rpc-login", "rpc-credentials", "rpc-account",
                                          "rpc-logs", "rpc-update", "rpc-check-update", "update-watch",
                                          "rpc-pool", "rpc-pool-save", "rpc-pool-remove", "pool-watch", "rpc-ipv6"])
+    parser.add_argument("--pool-member", action="store_true")
     parser.add_argument("--interface", default="wan")
     parser.add_argument("--server-ip", default="", help="认证服务器 IP 地址，留空使用系统 DNS")
     parser.add_argument("--pool-enabled", choices=["0", "1"], default="0")
@@ -952,6 +1046,18 @@ def main():
                              server_ipv6, args.update_source,
                              args.uplink_mode == "pool" or args.pool_enabled == "1",
                              args.uplink_mode)
+        if args.mode == "logout":
+            try:
+                expected = read_mapping(POOL).get(args.interface, {}).get("account") if args.pool_member else None
+                if args.pool_member and not expected:
+                    raise Stop("该接口没有账号池绑定")
+                logout_current(args.interface, server_ip, args.address_mode, server_ipv6, expected)
+            except (Stop, Retry, ValueError, OSError, subprocess.TimeoutExpired) as failure:
+                reason = str(failure) if isinstance(failure, (Stop, Retry)) else "注销请求异常或超时"
+                authentication_event(args.interface, "logout_failed", reason)
+                print(reason)
+                return 3
+            return 0
         if args.mode == "pool-watch":
             primary = None if args.uplink_mode == "pool" else args.interface
             pool_watch(primary, server_ip, args.address_mode, server_ipv6, args.interval, args.threshold)

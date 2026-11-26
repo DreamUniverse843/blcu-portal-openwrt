@@ -26,7 +26,9 @@
           "login",
           "check-update",
           "pool-save",
-          "pool-remove"
+          "pool-remove",
+          "logout",
+          "resume"
         ]
       }
     }

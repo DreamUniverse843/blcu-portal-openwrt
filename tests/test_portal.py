@@ -240,6 +240,30 @@ class PortalTest(unittest.TestCase):
         self.assertEqual(uplinks[1]["prefixes"][0]["prefix"], "2001:db8:1234::/48")
         self.assertEqual(uplinks[1]["dns"], ["2001:db8::53"])
 
+    def test_logout_targets_only_the_verified_session_and_pauses_reconnect(self):
+        online = {"online": True, "account": "student", "server_ip": None, "portal_mac": None,
+                  "endpoint": {"source": "192.0.2.20"}}
+        offline = {**online, "online": False}
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            with (patch.object(client, "AUTH_LOCK", root / "lock"),
+                  patch.object(client, "PAUSED", root / "paused"),
+                  patch.object(client, "read_interface", return_value=self.wan),
+                  patch.object(client, "check_connection", side_effect=[([online], {}), ([offline], {})]),
+                  patch.object(client, "check_status", return_value=online),
+                  patch.object(client, "request", side_effect=[
+                      ({"data": {"login_method": 1, "ac_logout": 1}}, {"source": "192.0.2.20"}),
+                      ({"result": 1}, {})]) as request,
+                  patch.object(client, "authentication_event") as event):
+                client.logout_current("wwan", None, "auto", None, expected="student")
+                self.assertTrue(client.is_paused("wwan"))
+                self.assertTrue(request.call_args.args[2].endswith("/logout"))
+                self.assertEqual(request.call_args.args[4]["wlan_user_ip"], "192.0.2.20")
+                self.assertEqual(request.call_args.args[4]["ac_logout"], "1")
+                self.assertEqual(event.call_args.args[1], "logout")
+                client.clear_pause("wwan")
+                self.assertFalse(client.is_paused("wwan"))
+
 
 if __name__ == "__main__":
     unittest.main()
