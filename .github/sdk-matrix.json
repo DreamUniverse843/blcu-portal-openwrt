@@ -1,11 +1,410 @@
 {
   "include": [
     {
+      "name": "openwrt-23.05.6-mediatek-filogic",
+      "architecture": "aarch64_cortex-a53",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/mediatek/filogic/openwrt-sdk-23.05.6-mediatek-filogic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "5a3867d65489f76b8233381489d8a55cae707cc448a32816db91fc118cb41281"
+    },
+    {
+      "name": "openwrt-23.05.6-bcm27xx-bcm2711",
+      "architecture": "aarch64_cortex-a72",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/bcm27xx/bcm2711/openwrt-sdk-23.05.6-bcm27xx-bcm2711_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "10538123d30c67c453b360129d819475738fad74a012b1d9dd5c2a7ef2a88944"
+    },
+    {
+      "name": "openwrt-23.05.6-armsr-armv8",
+      "architecture": "aarch64_generic",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/armsr/armv8/openwrt-sdk-23.05.6-armsr-armv8_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "0b8e27de3c4ec90a1155d0ee5f4a7622b2d90f4efced59b346b10ddfdb396fe6"
+    },
+    {
+      "name": "openwrt-23.05.6-bcm27xx-bcm2708",
+      "architecture": "arm_arm1176jzf-s_vfp",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/bcm27xx/bcm2708/openwrt-sdk-23.05.6-bcm27xx-bcm2708_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "95f6a92887ea3d69098a6c59bdba0d180f392df8a1f3a3f2682e3dc963b22dcc"
+    },
+    {
+      "name": "openwrt-23.05.6-at91-sam9x",
+      "architecture": "arm_arm926ej-s",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/at91/sam9x/openwrt-sdk-23.05.6-at91-sam9x_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "0bb4a0465d400a1540e2b70876342e2e90c3dd50a03a4eaf69ccb439458b686a"
+    },
+    {
+      "name": "openwrt-23.05.6-armsr-armv7",
+      "architecture": "arm_cortex-a15_neon-vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/armsr/armv7/openwrt-sdk-23.05.6-armsr-armv7_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "329c4a626bd644abcedf338d70d60a4e546e01ede95d64173b7534b89d8b6a61"
+    },
+    {
+      "name": "openwrt-23.05.6-at91-sama5",
+      "architecture": "arm_cortex-a5_vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/at91/sama5/openwrt-sdk-23.05.6-at91-sama5_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "126ceb2a49c3c5a8aa35cf20f9126f5c08eb5d2a0a20db16bd38fb42c1727071"
+    },
+    {
+      "name": "openwrt-23.05.6-mediatek-mt7629",
+      "architecture": "arm_cortex-a7",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/mediatek/mt7629/openwrt-sdk-23.05.6-mediatek-mt7629_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "2275a70e2d896355674bbb096607975486fbd8b241f6e411f9d44b39e3575bfa"
+    },
+    {
+      "name": "openwrt-23.05.6-ipq40xx-generic",
+      "architecture": "arm_cortex-a7_neon-vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/ipq40xx/generic/openwrt-sdk-23.05.6-ipq40xx-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "9909c57b12ec743c1603fe09ea0642ae1a75a7d765bf78100428150bce257f8b"
+    },
+    {
+      "name": "openwrt-23.05.6-at91-sama7",
+      "architecture": "arm_cortex-a7_vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/at91/sama7/openwrt-sdk-23.05.6-at91-sama7_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "4efd938dc26a3082db114fae93e71bee18d8af972a4e9b57cb34b68011b198e4"
+    },
+    {
+      "name": "openwrt-23.05.6-sunxi-cortexa8",
+      "architecture": "arm_cortex-a8_vfpv3",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/sunxi/cortexa8/openwrt-sdk-23.05.6-sunxi-cortexa8_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "4b8b9db2153df6bfae47c7fb822d27edb8ca09dd726cd8a2cbf72e5d2073f35a"
+    },
+    {
+      "name": "openwrt-23.05.6-bcm53xx-generic",
+      "architecture": "arm_cortex-a9",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/bcm53xx/generic/openwrt-sdk-23.05.6-bcm53xx-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "bfd5c5f87c2f2dddb6c25ed317a656ba07af1cf959664e3ece3da01b0bd1b881"
+    },
+    {
+      "name": "openwrt-23.05.6-imx-cortexa9",
+      "architecture": "arm_cortex-a9_neon",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/imx/cortexa9/openwrt-sdk-23.05.6-imx-cortexa9_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "9438d7dc4d5154cdd5f9831a9952a4505160147486f77a672dc2cd212459d28c"
+    },
+    {
+      "name": "openwrt-23.05.6-mvebu-cortexa9",
+      "architecture": "arm_cortex-a9_vfpv3-d16",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/mvebu/cortexa9/openwrt-sdk-23.05.6-mvebu-cortexa9_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "291e5d6ffddea259df878abae0fd1041fd7981500ea874b71c1a7359f2e65202"
+    },
+    {
+      "name": "openwrt-23.05.6-gemini-generic",
+      "architecture": "arm_fa526",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/gemini/generic/openwrt-sdk-23.05.6-gemini-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "5506a66bda0269b924d79bf51ffcaf69b380b788b684316123f77c6f0c70a076"
+    },
+    {
+      "name": "openwrt-23.05.6-oxnas-ox820",
+      "architecture": "arm_mpcore",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/oxnas/ox820/openwrt-sdk-23.05.6-oxnas-ox820_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "bb4542ee4ae2daa6a944bab195724ff736dcb580e1510ca8d426d89ffbd99184"
+    },
+    {
+      "name": "openwrt-23.05.6-kirkwood-generic",
+      "architecture": "arm_xscale",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/kirkwood/generic/openwrt-sdk-23.05.6-kirkwood-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "9087a5f2abe3535fecacb5698c8f325c7c453b2118bdd7e3de17d64d570e3980"
+    },
+    {
+      "name": "openwrt-23.05.6-x86-geode",
+      "architecture": "i386_pentium-mmx",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/x86/geode/openwrt-sdk-23.05.6-x86-geode_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "ccc5279f3abc9d694fc7acf507fdd0f11da179fcdba77523d0c018282a353220"
+    },
+    {
+      "name": "openwrt-23.05.6-x86-generic",
+      "architecture": "i386_pentium4",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/x86/generic/openwrt-sdk-23.05.6-x86-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "5bd2f68a8e1da272ebc6f8dc9d6284f45a3f21cb995af686e0b2f77ef538efca"
+    },
+    {
+      "name": "openwrt-23.05.6-octeon-generic",
+      "architecture": "mips64_octeonplus",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/octeon/generic/openwrt-sdk-23.05.6-octeon-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "1fcad23a4ac0df8d10428413009a948a5751b8c4db4fa69d399b18d399415a4a"
+    },
+    {
+      "name": "openwrt-23.05.6-ath79-generic",
+      "architecture": "mips_24kc",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/ath79/generic/openwrt-sdk-23.05.6-ath79-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "1aee820190924d60ae1a82ec4e46b71e6dae1678740b98065a608717a1b5e088"
+    },
+    {
+      "name": "openwrt-23.05.6-realtek-rtl838x",
+      "architecture": "mips_4kec",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/realtek/rtl838x/openwrt-sdk-23.05.6-realtek-rtl838x_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "87663327b17e13149a138fd156fe8580f648211e873b9692d6517705af59b7a6"
+    },
+    {
+      "name": "openwrt-23.05.6-bcm63xx-generic",
+      "architecture": "mips_mips32",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/bcm63xx/generic/openwrt-sdk-23.05.6-bcm63xx-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "8802c1730e0e7d1d72f42519cc44ba72989f805f711dfb002ed05e0d0734fd2c"
+    },
+    {
       "name": "openwrt-23.05.6-ramips-mt7621",
       "architecture": "mipsel_24kc",
       "format": "ipk",
       "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/ramips/mt7621/openwrt-sdk-23.05.6-ramips-mt7621_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
       "sha256": "5600a58516ac0d0281800fabf558c6cf93d580e7e2d6044aa45ae102e713b7b7"
+    },
+    {
+      "name": "openwrt-23.05.6-pistachio-generic",
+      "architecture": "mipsel_24kc_24kf",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/pistachio/generic/openwrt-sdk-23.05.6-pistachio-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "eebd75374c66209238ff85f033b49e89078ac99f14e9dafef8f87686b3565b62"
+    },
+    {
+      "name": "openwrt-23.05.6-bcm47xx-mips74k",
+      "architecture": "mipsel_74kc",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/bcm47xx/mips74k/openwrt-sdk-23.05.6-bcm47xx-mips74k_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "6edb875026f14bbb1841d601a6437e74672a82c6be1ffc9bfd3d399ae6bf7288"
+    },
+    {
+      "name": "openwrt-23.05.6-bcm47xx-generic",
+      "architecture": "mipsel_mips32",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/bcm47xx/generic/openwrt-sdk-23.05.6-bcm47xx-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "cb356268b1b5379a8d0f567c25a82d251e25334a969573cc9100d3f9e88d5538"
+    },
+    {
+      "name": "openwrt-23.05.6-apm821xx-nand",
+      "architecture": "powerpc_464fp",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/apm821xx/nand/openwrt-sdk-23.05.6-apm821xx-nand_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "7fef2c6d76228a89da2cf982590c85bfbd688b35e72ccc5979f11641cccaf9eb"
+    },
+    {
+      "name": "openwrt-23.05.6-mpc85xx-p1010",
+      "architecture": "powerpc_8548",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/mpc85xx/p1010/openwrt-sdk-23.05.6-mpc85xx-p1010_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "16657be8f448c68d17945dc4f6bba8d1afcdd2fe876e903d482e8e1277028a81"
+    },
+    {
+      "name": "openwrt-23.05.6-sifiveu-generic",
+      "architecture": "riscv64_riscv64",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/sifiveu/generic/openwrt-sdk-23.05.6-sifiveu-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "118c59b49621300f6eba412ee3209afb8f694be17e1ea653536f4a21cf11e310"
+    },
+    {
+      "name": "openwrt-23.05.6-x86-64",
+      "architecture": "x86_64",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/23.05.6/targets/x86/64/openwrt-sdk-23.05.6-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "f22bdac5b702bb823a0ee802e9bbda2a56c0f7a2687e5090113b00910dac995f"
+    },
+    {
+      "name": "openwrt-24.10.8-mediatek-filogic",
+      "architecture": "aarch64_cortex-a53",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/mediatek/filogic/openwrt-sdk-24.10.8-mediatek-filogic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "d9fd074f281823a3023e8f6a73aaac598018c898ec9ac4d1c507b596930d7482"
+    },
+    {
+      "name": "openwrt-24.10.8-bcm27xx-bcm2711",
+      "architecture": "aarch64_cortex-a72",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/bcm27xx/bcm2711/openwrt-sdk-24.10.8-bcm27xx-bcm2711_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "d97df62039b38cfea152de7c4c8981178dd3d078187f0cb00f95c0e86fb07ea0"
+    },
+    {
+      "name": "openwrt-24.10.8-bcm27xx-bcm2712",
+      "architecture": "aarch64_cortex-a76",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/bcm27xx/bcm2712/openwrt-sdk-24.10.8-bcm27xx-bcm2712_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "7b5fd1f72047c09986c1c24191971bb7caebf276406c7ea6281d62a1931593c1"
+    },
+    {
+      "name": "openwrt-24.10.8-armsr-armv8",
+      "architecture": "aarch64_generic",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/armsr/armv8/openwrt-sdk-24.10.8-armsr-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "5f430f5b30c9ea6dc472710356c139abf916b7ebd5de14e108e9cc204f40a2a4"
+    },
+    {
+      "name": "openwrt-24.10.8-bcm27xx-bcm2708",
+      "architecture": "arm_arm1176jzf-s_vfp",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/bcm27xx/bcm2708/openwrt-sdk-24.10.8-bcm27xx-bcm2708_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "53e94843d68b869d8ed989c3464b4b2122fd550e750ef07cb30d6170e803f3cc"
+    },
+    {
+      "name": "openwrt-24.10.8-at91-sam9x",
+      "architecture": "arm_arm926ej-s",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/at91/sam9x/openwrt-sdk-24.10.8-at91-sam9x_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "aea147f9f282a97ac6548321f2dbfada1fbcf05e5018f84738e11492edc45f3a"
+    },
+    {
+      "name": "openwrt-24.10.8-armsr-armv7",
+      "architecture": "arm_cortex-a15_neon-vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/armsr/armv7/openwrt-sdk-24.10.8-armsr-armv7_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "c30c6fc09d8038351e1cccb7d8565d8f3e4447dd017d15de8c7e83960fdb4718"
+    },
+    {
+      "name": "openwrt-24.10.8-at91-sama5",
+      "architecture": "arm_cortex-a5_vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/at91/sama5/openwrt-sdk-24.10.8-at91-sama5_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "144c40e63741dde7df0cb5a4025a9605c5b2b71f7beb80509c2b594760f8ceb3"
+    },
+    {
+      "name": "openwrt-24.10.8-mediatek-mt7629",
+      "architecture": "arm_cortex-a7",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/mediatek/mt7629/openwrt-sdk-24.10.8-mediatek-mt7629_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "71f23d0a0c90765676c15d1ec26101860a1b4b2f417fa828809d741171eea0f1"
+    },
+    {
+      "name": "openwrt-24.10.8-ipq40xx-generic",
+      "architecture": "arm_cortex-a7_neon-vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/ipq40xx/generic/openwrt-sdk-24.10.8-ipq40xx-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "b1b6a4a0d18305431c005af5b3750bedcdc4f5578eb757c53a4ce5956337f9f2"
+    },
+    {
+      "name": "openwrt-24.10.8-at91-sama7",
+      "architecture": "arm_cortex-a7_vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/at91/sama7/openwrt-sdk-24.10.8-at91-sama7_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "467ef0d7bf107587742d1a2429407bbd50eeb3f4d8c1d5971e87324ba10dab05"
+    },
+    {
+      "name": "openwrt-24.10.8-omap-generic",
+      "architecture": "arm_cortex-a8_vfpv3",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/omap/generic/openwrt-sdk-24.10.8-omap-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "1e12c31642b6d4d089f9b2fd033f961e041e6d88870dcaac312071698428e530"
+    },
+    {
+      "name": "openwrt-24.10.8-bcm53xx-generic",
+      "architecture": "arm_cortex-a9",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/bcm53xx/generic/openwrt-sdk-24.10.8-bcm53xx-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "cfd569aa06dd9e2023d03f0aec648c73a6ae2c95f9722493fddf2df7088e49ac"
+    },
+    {
+      "name": "openwrt-24.10.8-imx-cortexa9",
+      "architecture": "arm_cortex-a9_neon",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/imx/cortexa9/openwrt-sdk-24.10.8-imx-cortexa9_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "8414d81e0d36a5ba924ed3f2bad4d4785505d51ee4aa64c8af21d304caf84ce3"
+    },
+    {
+      "name": "openwrt-24.10.8-mvebu-cortexa9",
+      "architecture": "arm_cortex-a9_vfpv3-d16",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/mvebu/cortexa9/openwrt-sdk-24.10.8-mvebu-cortexa9_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "4a2ce19ffe18f615135849ba5e0a4b0b83aa324b2551984c38e2df782307860e"
+    },
+    {
+      "name": "openwrt-24.10.8-gemini-generic",
+      "architecture": "arm_fa526",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/gemini/generic/openwrt-sdk-24.10.8-gemini-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "6eac652bf98a1ea95c3063de8200060f0d122ce48fb5eeebc4757338eeb1c2f6"
+    },
+    {
+      "name": "openwrt-24.10.8-kirkwood-generic",
+      "architecture": "arm_xscale",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/kirkwood/generic/openwrt-sdk-24.10.8-kirkwood-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "1e473bca36ac901159c50f434ec832a4635d558271c54896dd1d54cbb1a89812"
+    },
+    {
+      "name": "openwrt-24.10.8-ixp4xx-generic",
+      "architecture": "armeb_xscale",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/ixp4xx/generic/openwrt-sdk-24.10.8-ixp4xx-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "ee7eda2154698745e33fcde8fd4a6eec4772716e22a73f6f582b485dfc5d20d7"
+    },
+    {
+      "name": "openwrt-24.10.8-x86-geode",
+      "architecture": "i386_pentium-mmx",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/x86/geode/openwrt-sdk-24.10.8-x86-geode_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "7d3e084644b8d685b269b4415762562c59774a5906c0f5eed4dba453c86562da"
+    },
+    {
+      "name": "openwrt-24.10.8-x86-generic",
+      "architecture": "i386_pentium4",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/x86/generic/openwrt-sdk-24.10.8-x86-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "33c5a37765dd009adc8a44dc23abb0805746441fe1d55dc28ffcb160a2c6e858"
+    },
+    {
+      "name": "openwrt-24.10.8-loongarch64-generic",
+      "architecture": "loongarch64_generic",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/loongarch64/generic/openwrt-sdk-24.10.8-loongarch64-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "0f22c219bb459c8ed6926a1e672544c0b5fd25381d21c8d1bd0afa0a96df5df7"
+    },
+    {
+      "name": "openwrt-24.10.8-malta-be64",
+      "architecture": "mips64_mips64r2",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/malta/be64/openwrt-sdk-24.10.8-malta-be64_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1bfedfda1816d2c678006817eb6e4c90bfbd2913565c8a9d6fcb0432e490db47"
+    },
+    {
+      "name": "openwrt-24.10.8-octeon-generic",
+      "architecture": "mips64_octeonplus",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/octeon/generic/openwrt-sdk-24.10.8-octeon-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "18e26666885ec2fad98059bbdbe26e339bb625a7e4b5875b4f64017fe8654acc"
+    },
+    {
+      "name": "openwrt-24.10.8-malta-le64",
+      "architecture": "mips64el_mips64r2",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/malta/le64/openwrt-sdk-24.10.8-malta-le64_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "54f50ab279eea90cb45285e5ac1ce68e9bf917992522227129f7646040f6cd24"
+    },
+    {
+      "name": "openwrt-24.10.8-ath79-generic",
+      "architecture": "mips_24kc",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/ath79/generic/openwrt-sdk-24.10.8-ath79-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "e46c4d0127061486ef4ce681f527f8a3980702011cafbf7801aff965a366dd8d"
+    },
+    {
+      "name": "openwrt-24.10.8-realtek-rtl838x",
+      "architecture": "mips_4kec",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/realtek/rtl838x/openwrt-sdk-24.10.8-realtek-rtl838x_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "20b63d8fd8dbb1f07cd600f6b4af715165c0ed383c55eb07983aa488f7ba4198"
+    },
+    {
+      "name": "openwrt-24.10.8-bmips-bcm6318",
+      "architecture": "mips_mips32",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/bmips/bcm6318/openwrt-sdk-24.10.8-bmips-bcm6318_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "dc3654fecc4e3cfc89a1f1bf7a5e39d69c019b19c087f29bf18b9f7f02b95d6e"
     },
     {
       "name": "openwrt-24.10.8-ramips-mt7621",
@@ -15,25 +414,60 @@
       "sha256": "9dd11b0517883b016ad7684f5c408a3483eec5b2455b2ffe004c9edd84063e45"
     },
     {
-      "name": "openwrt-25.12.6-ramips-mt7621",
-      "architecture": "mipsel_24kc",
-      "format": "apk",
-      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/ramips/mt7621/openwrt-sdk-25.12.6-ramips-mt7621_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
-      "sha256": "e4e3f25962ddf3ed55207fed456ecd1d6e55f3482c976b3183a640df6ef0adf0"
+      "name": "openwrt-24.10.8-pistachio-generic",
+      "architecture": "mipsel_24kc_24kf",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/pistachio/generic/openwrt-sdk-24.10.8-pistachio-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "890633ef42b729f4f1c5238592c79f59490409f2f179c2f2caa47732929b2a88"
     },
     {
-      "name": "openwrt-25.12.6-ath79-generic",
-      "architecture": "mips_24kc",
-      "format": "apk",
-      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/ath79/generic/openwrt-sdk-25.12.6-ath79-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
-      "sha256": "941c19d4787944e569bc0ca7fb4b6d0f4387ba24d188900bf0ffb6787fee31c6"
+      "name": "openwrt-24.10.8-bcm47xx-mips74k",
+      "architecture": "mipsel_74kc",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/bcm47xx/mips74k/openwrt-sdk-24.10.8-bcm47xx-mips74k_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "251ec0f47f0fda3378db6c3f59f810881d34be3e61c2d32afc1fa75836975edf"
     },
     {
-      "name": "openwrt-25.12.6-ipq40xx-generic",
-      "architecture": "arm_cortex-a7_neon-vfpv4",
-      "format": "apk",
-      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/ipq40xx/generic/openwrt-sdk-25.12.6-ipq40xx-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
-      "sha256": "72b2a064190a46b8026e192e29b8ff357dc040850eb3309573124509acbb8a05"
+      "name": "openwrt-24.10.8-bcm47xx-generic",
+      "architecture": "mipsel_mips32",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/bcm47xx/generic/openwrt-sdk-24.10.8-bcm47xx-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "42c79975d96f29bef6674d8cd818a4001a2ecf56b8d8bc0cbd5cb13c3e27120b"
+    },
+    {
+      "name": "openwrt-24.10.8-qoriq-generic",
+      "architecture": "powerpc64_e5500",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/qoriq/generic/openwrt-sdk-24.10.8-qoriq-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "4e7ccf2df205d79433d03511ca6d4e1171998323d5eb184b23c3a575928d539b"
+    },
+    {
+      "name": "openwrt-24.10.8-apm821xx-nand",
+      "architecture": "powerpc_464fp",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/apm821xx/nand/openwrt-sdk-24.10.8-apm821xx-nand_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "48a8ea596cd44a9890a9b9370304589143cb85e73f4bfb9247a08483c5252a6a"
+    },
+    {
+      "name": "openwrt-24.10.8-mpc85xx-p1010",
+      "architecture": "powerpc_8548",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/mpc85xx/p1010/openwrt-sdk-24.10.8-mpc85xx-p1010_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "34ccb30c0f2e6bc69fb90dae7b8317bfa4b2bb980223fb2b8fed404bf756b59c"
+    },
+    {
+      "name": "openwrt-24.10.8-starfive-generic",
+      "architecture": "riscv64_riscv64",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/starfive/generic/openwrt-sdk-24.10.8-starfive-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "ee18d63ae10bccbbbd2167b10f8c27f8af403d3f9b386febc5949f2addda3592"
+    },
+    {
+      "name": "openwrt-24.10.8-x86-64",
+      "architecture": "x86_64",
+      "format": "ipk",
+      "sdk": "https://downloads.openwrt.org/releases/24.10.8/targets/x86/64/openwrt-sdk-24.10.8-x86-64_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "ac4a0405d2eea821b06f93c14ba13ffa90ad0457648903df7dde02570027ab21"
     },
     {
       "name": "openwrt-25.12.6-mediatek-filogic",
@@ -43,18 +477,137 @@
       "sha256": "1c04ac47bdfc361d6aab299eb520d570e368013dedcb8d29cf39dc7168ae642e"
     },
     {
-      "name": "openwrt-25.12.6-x86-64",
-      "architecture": "x86_64",
+      "name": "openwrt-25.12.6-bcm27xx-bcm2711",
+      "architecture": "aarch64_cortex-a72",
       "format": "apk",
-      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/x86/64/openwrt-sdk-25.12.6-x86-64_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
-      "sha256": "1864152619092e781fa36a401960c8e9ae42d6a364c44ee5f0b197ca5f3c0fcc"
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/bcm27xx/bcm2711/openwrt-sdk-25.12.6-bcm27xx-bcm2711_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "d5faf36e92bc7311f138607606e8dd9fc4a6bda3fcf5277b0a5647515758df8e"
     },
     {
-      "name": "openwrt-25.12.6-starfive-generic",
-      "architecture": "riscv64_generic",
+      "name": "openwrt-25.12.6-bcm27xx-bcm2712",
+      "architecture": "aarch64_cortex-a76",
       "format": "apk",
-      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/starfive/generic/openwrt-sdk-25.12.6-starfive-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
-      "sha256": "4551bd535a7a4cf668a3c323f906a373bfdb44d5f830b9922c64ef53543ba260"
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/bcm27xx/bcm2712/openwrt-sdk-25.12.6-bcm27xx-bcm2712_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "9edc70b7bd3714ec31512af91c0152be40f029e7ea3ef626eef26d42433bd1ce"
+    },
+    {
+      "name": "openwrt-25.12.6-armsr-armv8",
+      "architecture": "aarch64_generic",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/armsr/armv8/openwrt-sdk-25.12.6-armsr-armv8_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "cbf3343bc3d6dc6180fc84077b966c13596a79904adaadbfe68409d563b0b596"
+    },
+    {
+      "name": "openwrt-25.12.6-bcm27xx-bcm2708",
+      "architecture": "arm_arm1176jzf-s_vfp",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/bcm27xx/bcm2708/openwrt-sdk-25.12.6-bcm27xx-bcm2708_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "4f4270db0bb770de03718a1b8944e41c803b8b4f09a83f7285d69337f41df4fc"
+    },
+    {
+      "name": "openwrt-25.12.6-at91-sam9x",
+      "architecture": "arm_arm926ej-s",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/at91/sam9x/openwrt-sdk-25.12.6-at91-sam9x_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "dae144bfa0ebac9e6537b040fbf0e865b9a6fce291388e714d32acf171c41a8c"
+    },
+    {
+      "name": "openwrt-25.12.6-armsr-armv7",
+      "architecture": "arm_cortex-a15_neon-vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/armsr/armv7/openwrt-sdk-25.12.6-armsr-armv7_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "b29c5b96d757c3518a4f4df18e3187e16de618381625847b8874461935358179"
+    },
+    {
+      "name": "openwrt-25.12.6-at91-sama5",
+      "architecture": "arm_cortex-a5_vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/at91/sama5/openwrt-sdk-25.12.6-at91-sama5_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "0f20b089c3964500c86c9cfdd062bfc7d61477d1bbf441e45373b127c4b60934"
+    },
+    {
+      "name": "openwrt-25.12.6-mediatek-mt7629",
+      "architecture": "arm_cortex-a7",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/mediatek/mt7629/openwrt-sdk-25.12.6-mediatek-mt7629_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "3cebd10c450c2a487e5b07c6dacd4c9187bc4c699ce2daadd4c84726b55dd1f4"
+    },
+    {
+      "name": "openwrt-25.12.6-ipq40xx-generic",
+      "architecture": "arm_cortex-a7_neon-vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/ipq40xx/generic/openwrt-sdk-25.12.6-ipq40xx-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "72b2a064190a46b8026e192e29b8ff357dc040850eb3309573124509acbb8a05"
+    },
+    {
+      "name": "openwrt-25.12.6-at91-sama7",
+      "architecture": "arm_cortex-a7_vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/at91/sama7/openwrt-sdk-25.12.6-at91-sama7_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "0880ec99247909c53a15cfb7edb08a621e28a112d6f1c1f5ee6a67cff86663eb"
+    },
+    {
+      "name": "openwrt-25.12.6-omap-generic",
+      "architecture": "arm_cortex-a8_vfpv3",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/omap/generic/openwrt-sdk-25.12.6-omap-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "99313dc6b40d121657d85a6394bab43ccd93c36696c7b6b61a3c6e77d5c41297"
+    },
+    {
+      "name": "openwrt-25.12.6-bcm53xx-generic",
+      "architecture": "arm_cortex-a9",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/bcm53xx/generic/openwrt-sdk-25.12.6-bcm53xx-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "291c0899a045a963aa5f610e885b9eb335cfeb5c8478c9c431770ba9cdbc98bf"
+    },
+    {
+      "name": "openwrt-25.12.6-imx-cortexa9",
+      "architecture": "arm_cortex-a9_neon",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/imx/cortexa9/openwrt-sdk-25.12.6-imx-cortexa9_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "24bdc20c0c53bf3bce1fcea53f31435afecd582257514d49acfe10683ecedcd7"
+    },
+    {
+      "name": "openwrt-25.12.6-mvebu-cortexa9",
+      "architecture": "arm_cortex-a9_vfpv3-d16",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/mvebu/cortexa9/openwrt-sdk-25.12.6-mvebu-cortexa9_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "fc59dddc696b88e32662f4b1611c880bed24a88115ae423b640c81d071bec8ab"
+    },
+    {
+      "name": "openwrt-25.12.6-gemini-generic",
+      "architecture": "arm_fa526",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/gemini/generic/openwrt-sdk-25.12.6-gemini-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "274afbd0c999bac6d558c27de29f5271137157b995823d4f1b929925c899bc25"
+    },
+    {
+      "name": "openwrt-25.12.6-kirkwood-generic",
+      "architecture": "arm_xscale",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/kirkwood/generic/openwrt-sdk-25.12.6-kirkwood-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "0369aee972f351502d78abb5736d0a7bf1a8b7b81bca8308bef8eb3bdfdd2b23"
+    },
+    {
+      "name": "openwrt-25.12.6-ixp4xx-generic",
+      "architecture": "armeb_xscale",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/ixp4xx/generic/openwrt-sdk-25.12.6-ixp4xx-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "9fc79aa1856539ea9100f5178cf4b475bd9dda35a87dc82c1f5d1a6a573e0b86"
+    },
+    {
+      "name": "openwrt-25.12.6-x86-geode",
+      "architecture": "i386_pentium-mmx",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/x86/geode/openwrt-sdk-25.12.6-x86-geode_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "40768be14ca2cdf243e91874a952a5b8c141749558a792c6ef89c83a7cff2fc4"
+    },
+    {
+      "name": "openwrt-25.12.6-x86-generic",
+      "architecture": "i386_pentium4",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/x86/generic/openwrt-sdk-25.12.6-x86-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "c04cec9e97f73cb13dab6135c397640478ea5a15694efe9bf8a5ea03fe9e0927"
     },
     {
       "name": "openwrt-25.12.6-loongarch64-generic",
@@ -64,11 +617,508 @@
       "sha256": "1d7d25860d2acae1074317fde29db49e18c9ba34fa1441d48b40b52c6704d730"
     },
     {
+      "name": "openwrt-25.12.6-malta-be64",
+      "architecture": "mips64_mips64r2",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/malta/be64/openwrt-sdk-25.12.6-malta-be64_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "f0d70fe5b1a8031f36c05738e7335106b743360feaf3e2945625edb5fe8c7ef9"
+    },
+    {
+      "name": "openwrt-25.12.6-octeon-generic",
+      "architecture": "mips64_octeonplus",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/octeon/generic/openwrt-sdk-25.12.6-octeon-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "80672030b3ff8ac7f089f9b7309f663ab9387f2cda63896ade5353c36e8d2fa2"
+    },
+    {
+      "name": "openwrt-25.12.6-malta-le64",
+      "architecture": "mips64el_mips64r2",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/malta/le64/openwrt-sdk-25.12.6-malta-le64_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "c81ef2d0308ad7ce3dfe74f9e9f4b2b28ad4519704fd085d2425af28b796861d"
+    },
+    {
+      "name": "openwrt-25.12.6-ath79-generic",
+      "architecture": "mips_24kc",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/ath79/generic/openwrt-sdk-25.12.6-ath79-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "941c19d4787944e569bc0ca7fb4b6d0f4387ba24d188900bf0ffb6787fee31c6"
+    },
+    {
+      "name": "openwrt-25.12.6-bmips-bcm6318",
+      "architecture": "mips_mips32",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/bmips/bcm6318/openwrt-sdk-25.12.6-bmips-bcm6318_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "30df16d2a4ea0d271361e49ddd1d3faf6ebbe1135fedaddeec9985de867e96e1"
+    },
+    {
+      "name": "openwrt-25.12.6-ramips-mt7621",
+      "architecture": "mipsel_24kc",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/ramips/mt7621/openwrt-sdk-25.12.6-ramips-mt7621_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "e4e3f25962ddf3ed55207fed456ecd1d6e55f3482c976b3183a640df6ef0adf0"
+    },
+    {
+      "name": "openwrt-25.12.6-pistachio-generic",
+      "architecture": "mipsel_24kc_24kf",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/pistachio/generic/openwrt-sdk-25.12.6-pistachio-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "604a7a4e0172ccd9806aa64b17999e7acac233b9fac0ed3e1750697e30f21391"
+    },
+    {
+      "name": "openwrt-25.12.6-bcm47xx-mips74k",
+      "architecture": "mipsel_74kc",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/bcm47xx/mips74k/openwrt-sdk-25.12.6-bcm47xx-mips74k_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "928d8d7845a46c9ac6ce4b09f481203e5a762efe42f3b73c214d74931dada21d"
+    },
+    {
+      "name": "openwrt-25.12.6-bcm47xx-generic",
+      "architecture": "mipsel_mips32",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/bcm47xx/generic/openwrt-sdk-25.12.6-bcm47xx-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "657488eb218e823cb48da74eba8aeabe1970194766dbd08547cf1cab2ff0c424"
+    },
+    {
+      "name": "openwrt-25.12.6-qoriq-generic",
+      "architecture": "powerpc64_e5500",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/qoriq/generic/openwrt-sdk-25.12.6-qoriq-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "434b91ff42e652e29d21f3c461db9b013a7993e38e3dc5c15d127510541eb4ad"
+    },
+    {
+      "name": "openwrt-25.12.6-apm821xx-nand",
+      "architecture": "powerpc_464fp",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/apm821xx/nand/openwrt-sdk-25.12.6-apm821xx-nand_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "215640214c04c5fb7863e60bf681edc3530eee562b6b089543937d3be65368a5"
+    },
+    {
+      "name": "openwrt-25.12.6-mpc85xx-p1010",
+      "architecture": "powerpc_8548",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/mpc85xx/p1010/openwrt-sdk-25.12.6-mpc85xx-p1010_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "b73bcb9d3072240b4fd6af1670bf9c1744f4951f000a11b55b782b97bd3fc240"
+    },
+    {
+      "name": "openwrt-25.12.6-starfive-generic",
+      "architecture": "riscv64_generic",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/starfive/generic/openwrt-sdk-25.12.6-starfive-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "4551bd535a7a4cf668a3c323f906a373bfdb44d5f830b9922c64ef53543ba260"
+    },
+    {
+      "name": "openwrt-25.12.6-x86-64",
+      "architecture": "x86_64",
+      "format": "apk",
+      "sdk": "https://downloads.openwrt.org/releases/25.12.6/targets/x86/64/openwrt-sdk-25.12.6-x86-64_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1864152619092e781fa36a401960c8e9ae42d6a364c44ee5f0b197ca5f3c0fcc"
+    },
+    {
+      "name": "immortalwrt-23.05.7-mediatek-filogic",
+      "architecture": "aarch64_cortex-a53",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/mediatek/filogic/immortalwrt-sdk-23.05.7-mediatek-filogic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "1d2a4eb0987cc904304a98137aa330b97c552b13af4319c531f875293725931f"
+    },
+    {
+      "name": "immortalwrt-23.05.7-bcm27xx-bcm2711",
+      "architecture": "aarch64_cortex-a72",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/bcm27xx/bcm2711/immortalwrt-sdk-23.05.7-bcm27xx-bcm2711_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "61f3c6ce4be7236d148529e7f3294b2587c5e0da8745f048d5abe213491f0b3e"
+    },
+    {
+      "name": "immortalwrt-23.05.7-armsr-armv8",
+      "architecture": "aarch64_generic",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/armsr/armv8/immortalwrt-sdk-23.05.7-armsr-armv8_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "291a10b7c7e652bc1c5146a8a13fb980e2a696be7b7154c41434f413039caedf"
+    },
+    {
+      "name": "immortalwrt-23.05.7-bcm27xx-bcm2708",
+      "architecture": "arm_arm1176jzf-s_vfp",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/bcm27xx/bcm2708/immortalwrt-sdk-23.05.7-bcm27xx-bcm2708_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "cb2173c52d62ebc86203cc7097cc2e77a571cd3e282d03dd684f180dd83c3f74"
+    },
+    {
+      "name": "immortalwrt-23.05.7-at91-sam9x",
+      "architecture": "arm_arm926ej-s",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/at91/sam9x/immortalwrt-sdk-23.05.7-at91-sam9x_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "9be365531cc15e78f8cba5df3b89fac88d4dec1665daaf5e31fe169bc24b32ac"
+    },
+    {
+      "name": "immortalwrt-23.05.7-armsr-armv7",
+      "architecture": "arm_cortex-a15_neon-vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/armsr/armv7/immortalwrt-sdk-23.05.7-armsr-armv7_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "e573bbb83066f40210380ab3fcc8420f3bf96dbe1f8cc2058e26c198d0f446cb"
+    },
+    {
+      "name": "immortalwrt-23.05.7-at91-sama5",
+      "architecture": "arm_cortex-a5_vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/at91/sama5/immortalwrt-sdk-23.05.7-at91-sama5_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "c2a17ff26bb748d3fde3ec6ecc32d9409285f0b7b9db7b498c35788553a1d48a"
+    },
+    {
+      "name": "immortalwrt-23.05.7-mediatek-mt7629",
+      "architecture": "arm_cortex-a7",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/mediatek/mt7629/immortalwrt-sdk-23.05.7-mediatek-mt7629_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "466a9d994a60edaf160ea56c368ca102b7fbb1c2f5454b41c8ab9697c8490214"
+    },
+    {
+      "name": "immortalwrt-23.05.7-ipq40xx-generic",
+      "architecture": "arm_cortex-a7_neon-vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/ipq40xx/generic/immortalwrt-sdk-23.05.7-ipq40xx-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "88fac92c6068c8bd56355414454aa347ade416520ea0788cd5c9823ae24e578c"
+    },
+    {
+      "name": "immortalwrt-23.05.7-at91-sama7",
+      "architecture": "arm_cortex-a7_vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/at91/sama7/immortalwrt-sdk-23.05.7-at91-sama7_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "9626a0f864ec9fb65895ef026d84ec1bed18c00df30b8f07a70188df12773710"
+    },
+    {
+      "name": "immortalwrt-23.05.7-sunxi-cortexa8",
+      "architecture": "arm_cortex-a8_vfpv3",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/sunxi/cortexa8/immortalwrt-sdk-23.05.7-sunxi-cortexa8_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "d2ac7148c0a5ea07b4ae46c93924069ee59a35f5a794fd283197441bfd28176d"
+    },
+    {
+      "name": "immortalwrt-23.05.7-bcm53xx-generic",
+      "architecture": "arm_cortex-a9",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/bcm53xx/generic/immortalwrt-sdk-23.05.7-bcm53xx-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "7cee32c894f308cb46979cd3363363a786fba65621b8e1755252b5edb63a40f9"
+    },
+    {
+      "name": "immortalwrt-23.05.7-imx-cortexa9",
+      "architecture": "arm_cortex-a9_neon",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/imx/cortexa9/immortalwrt-sdk-23.05.7-imx-cortexa9_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "88f6bf811b3cf67ae3b89d99bd41bd3875d3f53fd7eade11ded4c8cac68bdf31"
+    },
+    {
+      "name": "immortalwrt-23.05.7-mvebu-cortexa9",
+      "architecture": "arm_cortex-a9_vfpv3-d16",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/mvebu/cortexa9/immortalwrt-sdk-23.05.7-mvebu-cortexa9_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "11f577eb202718f526ae5c5809bb45db9c00bda6f0d80576abfbc2fff0137af8"
+    },
+    {
+      "name": "immortalwrt-23.05.7-gemini-generic",
+      "architecture": "arm_fa526",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/gemini/generic/immortalwrt-sdk-23.05.7-gemini-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "6de5ffa87cd3eb261ba15b3c99ca17081dae99e53192ab15eb8310a5deb34d14"
+    },
+    {
+      "name": "immortalwrt-23.05.7-oxnas-ox820",
+      "architecture": "arm_mpcore",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/oxnas/ox820/immortalwrt-sdk-23.05.7-oxnas-ox820_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "664aa9b59a4d766cfce25feef1c3b740abefd70beca490e72262640c012acde4"
+    },
+    {
+      "name": "immortalwrt-23.05.7-kirkwood-generic",
+      "architecture": "arm_xscale",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/kirkwood/generic/immortalwrt-sdk-23.05.7-kirkwood-generic_gcc-12.3.0_musl_eabi.Linux-x86_64.tar.xz",
+      "sha256": "81808ddefd762259edb5fbf7b4a7cb028ae6f97ff18f6bcc9de6db8cb304d288"
+    },
+    {
+      "name": "immortalwrt-23.05.7-x86-geode",
+      "architecture": "i386_pentium-mmx",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/x86/geode/immortalwrt-sdk-23.05.7-x86-geode_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "c98e96cf9da0f410696b0c12baef9bbb4f73e5eee5a83f4117fefae7ce94426c"
+    },
+    {
+      "name": "immortalwrt-23.05.7-x86-generic",
+      "architecture": "i386_pentium4",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/x86/generic/immortalwrt-sdk-23.05.7-x86-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "6751205df08f79163226b640aaa219f91a0f61bccfde98462eebbc69414a4f19"
+    },
+    {
+      "name": "immortalwrt-23.05.7-octeon-generic",
+      "architecture": "mips64_octeonplus",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/octeon/generic/immortalwrt-sdk-23.05.7-octeon-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "ca287a313242a0b68c2993bf4ea8d05843c1f0cc3d85b6bcb457900cae4222a5"
+    },
+    {
+      "name": "immortalwrt-23.05.7-ath79-generic",
+      "architecture": "mips_24kc",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/ath79/generic/immortalwrt-sdk-23.05.7-ath79-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "6d55358077194c5bbcdd49e2dd793076052a6ef03e6f4f39f6b82035e8c97df8"
+    },
+    {
+      "name": "immortalwrt-23.05.7-realtek-rtl838x",
+      "architecture": "mips_4kec",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/realtek/rtl838x/immortalwrt-sdk-23.05.7-realtek-rtl838x_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "f813963f55fd4fb796e07525f66dba82d858e1f8bae1d2bdcfc42a6be308c63c"
+    },
+    {
+      "name": "immortalwrt-23.05.7-bcm63xx-generic",
+      "architecture": "mips_mips32",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/bcm63xx/generic/immortalwrt-sdk-23.05.7-bcm63xx-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "e21d0747121dc36baa8bfbbbae2bc9b3db1642837708b7f2ccdb23502afb52ff"
+    },
+    {
       "name": "immortalwrt-23.05.7-ramips-mt7621",
       "architecture": "mipsel_24kc",
       "format": "ipk",
       "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/ramips/mt7621/immortalwrt-sdk-23.05.7-ramips-mt7621_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
       "sha256": "5e9f12e819a9e806d06040efb52ccedb0bf2b1856b810a846b50e3ba9c60dedd"
+    },
+    {
+      "name": "immortalwrt-23.05.7-pistachio-generic",
+      "architecture": "mipsel_24kc_24kf",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/pistachio/generic/immortalwrt-sdk-23.05.7-pistachio-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "2d5e80bb93ccae75565fa65bb8eae56ae32468f0e515410ffb79169049a4d7ca"
+    },
+    {
+      "name": "immortalwrt-23.05.7-bcm47xx-mips74k",
+      "architecture": "mipsel_74kc",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/bcm47xx/mips74k/immortalwrt-sdk-23.05.7-bcm47xx-mips74k_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "d99f8dda6f19614e72b5d24b76f43540158e96c0c7a706ce1647a26c674d5b3b"
+    },
+    {
+      "name": "immortalwrt-23.05.7-bcm47xx-generic",
+      "architecture": "mipsel_mips32",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/bcm47xx/generic/immortalwrt-sdk-23.05.7-bcm47xx-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "4a0736ba5d72c5a691a7903fe39eb71ce0cca2850b5f7fd7994a34b0c84662fd"
+    },
+    {
+      "name": "immortalwrt-23.05.7-apm821xx-nand",
+      "architecture": "powerpc_464fp",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/apm821xx/nand/immortalwrt-sdk-23.05.7-apm821xx-nand_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "c437f43dc05bdc998713ed9550739de6a5412f91c594d095b1ea9ec034fe8a1a"
+    },
+    {
+      "name": "immortalwrt-23.05.7-mpc85xx-p1010",
+      "architecture": "powerpc_8548",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/mpc85xx/p1010/immortalwrt-sdk-23.05.7-mpc85xx-p1010_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "10926244701567b55947f16d62223ca569676219170f212769e19c0314fd4561"
+    },
+    {
+      "name": "immortalwrt-23.05.7-sifiveu-generic",
+      "architecture": "riscv64_riscv64",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/sifiveu/generic/immortalwrt-sdk-23.05.7-sifiveu-generic_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "34efb4a4f8eab5a3be55d07a8c16a7133c15d6cbfa06b0005da8e21a1f2ee1ba"
+    },
+    {
+      "name": "immortalwrt-23.05.7-x86-64",
+      "architecture": "x86_64",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/23.05.7/targets/x86/64/immortalwrt-sdk-23.05.7-x86-64_gcc-12.3.0_musl.Linux-x86_64.tar.xz",
+      "sha256": "86b45682ec1fea92eeaf672df8344d025de567bba75607e68dce08366026f68b"
+    },
+    {
+      "name": "immortalwrt-24.10.7-mediatek-filogic",
+      "architecture": "aarch64_cortex-a53",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/mediatek/filogic/immortalwrt-sdk-24.10.7-mediatek-filogic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "d0d5552a3f91be9e3bd44e770c17d90aee7b6dc98e5884ac04773ec691e1d332"
+    },
+    {
+      "name": "immortalwrt-24.10.7-bcm27xx-bcm2711",
+      "architecture": "aarch64_cortex-a72",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/bcm27xx/bcm2711/immortalwrt-sdk-24.10.7-bcm27xx-bcm2711_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "a96231206d8fe14e4de93e72c0632dea6561afa49d8261696ff37ae75af86db5"
+    },
+    {
+      "name": "immortalwrt-24.10.7-bcm27xx-bcm2712",
+      "architecture": "aarch64_cortex-a76",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/bcm27xx/bcm2712/immortalwrt-sdk-24.10.7-bcm27xx-bcm2712_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "b0e02ab53e95e210f64c6339bfafc73ed33c4c1d124dd1cff16f434fab6c9ff1"
+    },
+    {
+      "name": "immortalwrt-24.10.7-armsr-armv8",
+      "architecture": "aarch64_generic",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/armsr/armv8/immortalwrt-sdk-24.10.7-armsr-armv8_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "19ad0c6a3d237679264122fffc1e7c4b86fdb97dd4d33c6bebae66249b8c586e"
+    },
+    {
+      "name": "immortalwrt-24.10.7-bcm27xx-bcm2708",
+      "architecture": "arm_arm1176jzf-s_vfp",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/bcm27xx/bcm2708/immortalwrt-sdk-24.10.7-bcm27xx-bcm2708_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "150dd05400233a90b25043e992129bfe61f65b3160dbf28be9cfd45944d4e3ba"
+    },
+    {
+      "name": "immortalwrt-24.10.7-at91-sam9x",
+      "architecture": "arm_arm926ej-s",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/at91/sam9x/immortalwrt-sdk-24.10.7-at91-sam9x_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "17b27f597f79a3bef0af37afd03b5dcaa5c88303ed8457a9b2ca0b250b39aff7"
+    },
+    {
+      "name": "immortalwrt-24.10.7-armsr-armv7",
+      "architecture": "arm_cortex-a15_neon-vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/armsr/armv7/immortalwrt-sdk-24.10.7-armsr-armv7_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "96713d9f19999e6bcf8852c1ebaf8eaf5c4b5b0896c2000e38d32dd33ad10772"
+    },
+    {
+      "name": "immortalwrt-24.10.7-at91-sama5",
+      "architecture": "arm_cortex-a5_vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/at91/sama5/immortalwrt-sdk-24.10.7-at91-sama5_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "52e376e4fa6f25b41f3fb11f0071cbf0e1b1a05993eb34b6c8b9eb04eb6015a9"
+    },
+    {
+      "name": "immortalwrt-24.10.7-mediatek-mt7629",
+      "architecture": "arm_cortex-a7",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/mediatek/mt7629/immortalwrt-sdk-24.10.7-mediatek-mt7629_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "1ca1f2a1a49d3e919c187e5b7dbcfc03f0221c84953020883cc429d0ec655923"
+    },
+    {
+      "name": "immortalwrt-24.10.7-ipq40xx-generic",
+      "architecture": "arm_cortex-a7_neon-vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/ipq40xx/generic/immortalwrt-sdk-24.10.7-ipq40xx-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "71b3f524ba73421a4c4af8403e1236b825d513bfa34880c0a216f2dcc3e58d0c"
+    },
+    {
+      "name": "immortalwrt-24.10.7-at91-sama7",
+      "architecture": "arm_cortex-a7_vfpv4",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/at91/sama7/immortalwrt-sdk-24.10.7-at91-sama7_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "7c7750b95aabff794ebff73bd7b0a1d69c910c5a3460729ca37806a0227565b7"
+    },
+    {
+      "name": "immortalwrt-24.10.7-omap-generic",
+      "architecture": "arm_cortex-a8_vfpv3",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/omap/generic/immortalwrt-sdk-24.10.7-omap-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "af32e7309a17db026d7bf9abf86c01dfc7a1970a8e2c28c5ba79acf9fe6dd15b"
+    },
+    {
+      "name": "immortalwrt-24.10.7-bcm53xx-generic",
+      "architecture": "arm_cortex-a9",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/bcm53xx/generic/immortalwrt-sdk-24.10.7-bcm53xx-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "c40a7d5b8b3913b9b7df3bce91bb30be2466e10c409699840d268ae1a657d1a8"
+    },
+    {
+      "name": "immortalwrt-24.10.7-imx-cortexa9",
+      "architecture": "arm_cortex-a9_neon",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/imx/cortexa9/immortalwrt-sdk-24.10.7-imx-cortexa9_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "4ccd2703f3006e283c2b0bfdb6527b77c4fdad4ac145bd0f994a85d7d9c1500e"
+    },
+    {
+      "name": "immortalwrt-24.10.7-mvebu-cortexa9",
+      "architecture": "arm_cortex-a9_vfpv3-d16",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/mvebu/cortexa9/immortalwrt-sdk-24.10.7-mvebu-cortexa9_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "40ae64fd5fe75a3d6f2197ddcf5eb755e94f6841c14e1bad8bfe7db5b1552fb3"
+    },
+    {
+      "name": "immortalwrt-24.10.7-gemini-generic",
+      "architecture": "arm_fa526",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/gemini/generic/immortalwrt-sdk-24.10.7-gemini-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "f15168b10d50b8ffc35164f1fd67a97ca7a4695eb12472d33a87e109822dbe0c"
+    },
+    {
+      "name": "immortalwrt-24.10.7-kirkwood-generic",
+      "architecture": "arm_xscale",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/kirkwood/generic/immortalwrt-sdk-24.10.7-kirkwood-generic_gcc-13.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "1aadf52209ae9be79f597f5bff69d9d12a3cbbbc1ce29a812ea4a5897a4a84f4"
+    },
+    {
+      "name": "immortalwrt-24.10.7-ixp4xx-generic",
+      "architecture": "armeb_xscale",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/ixp4xx/generic/immortalwrt-sdk-24.10.7-ixp4xx-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "83bd83e2cb36015c1cc00ceb31c7c8776477584c65c034f872f3f67ae5005b58"
+    },
+    {
+      "name": "immortalwrt-24.10.7-x86-geode",
+      "architecture": "i386_pentium-mmx",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/x86/geode/immortalwrt-sdk-24.10.7-x86-geode_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "43b011d8e8189dc53eea47a25296febb3338b5e1e1793a0dedcc7e5020aadb61"
+    },
+    {
+      "name": "immortalwrt-24.10.7-x86-generic",
+      "architecture": "i386_pentium4",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/x86/generic/immortalwrt-sdk-24.10.7-x86-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1b13401e1fe83cb2d92064d79be6895380441bfb4f5d4e459c923072b7f3d4d6"
+    },
+    {
+      "name": "immortalwrt-24.10.7-loongarch64-generic",
+      "architecture": "loongarch64_generic",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/loongarch64/generic/immortalwrt-sdk-24.10.7-loongarch64-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "4d3daf313bedd9f6effeac4c6d04a1a306be40a98d89dde7287442e06e7f749f"
+    },
+    {
+      "name": "immortalwrt-24.10.7-malta-be64",
+      "architecture": "mips64_mips64r2",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/malta/be64/immortalwrt-sdk-24.10.7-malta-be64_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "362295d2ae48ffa2610ec6b487cfe37ff17a550f3114cc509eb3813219b4958f"
+    },
+    {
+      "name": "immortalwrt-24.10.7-octeon-generic",
+      "architecture": "mips64_octeonplus",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/octeon/generic/immortalwrt-sdk-24.10.7-octeon-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "d6dbec0e3b3a9e3402e105bf2b79ae2bb555128f644068ae9072044088555569"
+    },
+    {
+      "name": "immortalwrt-24.10.7-malta-le64",
+      "architecture": "mips64el_mips64r2",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/malta/le64/immortalwrt-sdk-24.10.7-malta-le64_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "56469816889c0c0377cb33b3180481ac68752e12d0265c1dbc0b677798a6ee2c"
+    },
+    {
+      "name": "immortalwrt-24.10.7-ath79-generic",
+      "architecture": "mips_24kc",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/ath79/generic/immortalwrt-sdk-24.10.7-ath79-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "04f101cf5d096add3e0fa03956204248886b901d7e8848a1a7ce91f2e33d791f"
+    },
+    {
+      "name": "immortalwrt-24.10.7-realtek-rtl838x",
+      "architecture": "mips_4kec",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/realtek/rtl838x/immortalwrt-sdk-24.10.7-realtek-rtl838x_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1a1c3cde5a64e6720c1984fd38ff9dd8af431ad239a1a789cf5aaeff4dd6b948"
+    },
+    {
+      "name": "immortalwrt-24.10.7-bmips-bcm6318",
+      "architecture": "mips_mips32",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/bmips/bcm6318/immortalwrt-sdk-24.10.7-bmips-bcm6318_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "fdeb68ba76e6b4d69420b1c5652868bf75c1cd0322834b62e1c9b1019cf639e0"
     },
     {
       "name": "immortalwrt-24.10.7-ramips-mt7621",
@@ -78,6 +1128,244 @@
       "sha256": "2665de309600ae30e4d64f8d9142bd2ccef831b8ce42b1f66bde225c0e7995b7"
     },
     {
+      "name": "immortalwrt-24.10.7-pistachio-generic",
+      "architecture": "mipsel_24kc_24kf",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/pistachio/generic/immortalwrt-sdk-24.10.7-pistachio-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "6e834205f19fc2de6929696fa2224f8dbd1874ea0d8eb2b2f590978ba7bc4e3f"
+    },
+    {
+      "name": "immortalwrt-24.10.7-bcm47xx-mips74k",
+      "architecture": "mipsel_74kc",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/bcm47xx/mips74k/immortalwrt-sdk-24.10.7-bcm47xx-mips74k_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "fdcdd6f91b697358840b2f5499688c82f474dc7d1669b9229338f0fb589cdafb"
+    },
+    {
+      "name": "immortalwrt-24.10.7-bcm47xx-generic",
+      "architecture": "mipsel_mips32",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/bcm47xx/generic/immortalwrt-sdk-24.10.7-bcm47xx-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "f5b5bbb38a6b97bc9d64a8e0e862950465f07c4aacb479a4a1b10811497d61a1"
+    },
+    {
+      "name": "immortalwrt-24.10.7-qoriq-generic",
+      "architecture": "powerpc64_e5500",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/qoriq/generic/immortalwrt-sdk-24.10.7-qoriq-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "849293dd1be9fc5d6d4177171df5df36309c904be8b3e5a9ce92884c48d412af"
+    },
+    {
+      "name": "immortalwrt-24.10.7-apm821xx-nand",
+      "architecture": "powerpc_464fp",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/apm821xx/nand/immortalwrt-sdk-24.10.7-apm821xx-nand_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "fcbe74d516db9a1c569f2f8d95980376eb228250e88672d0c73395a0ee29af6d"
+    },
+    {
+      "name": "immortalwrt-24.10.7-mpc85xx-p1010",
+      "architecture": "powerpc_8548",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/mpc85xx/p1010/immortalwrt-sdk-24.10.7-mpc85xx-p1010_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "b4990289cec3054a988de329b2f502e330bf3ebef747b125512017394b27e1c1"
+    },
+    {
+      "name": "immortalwrt-24.10.7-starfive-generic",
+      "architecture": "riscv64_riscv64",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/starfive/generic/immortalwrt-sdk-24.10.7-starfive-generic_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "98a005efb6b6c96bf4785a9d15bfde3e9085d4786d2ebba765c5bf5295f443c7"
+    },
+    {
+      "name": "immortalwrt-24.10.7-x86-64",
+      "architecture": "x86_64",
+      "format": "ipk",
+      "sdk": "https://downloads.immortalwrt.org/releases/24.10.7/targets/x86/64/immortalwrt-sdk-24.10.7-x86-64_gcc-13.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "e90d03477951d0667da4db5cde034b5e2d6ed1bc2c79b84ca8d591389e6da1d9"
+    },
+    {
+      "name": "immortalwrt-25.12.1-mediatek-filogic",
+      "architecture": "aarch64_cortex-a53",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/mediatek/filogic/immortalwrt-sdk-25.12.1-mediatek-filogic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1dede7c6afa3184eda37511e47a628f6674d2da2ce99a65f788f910ec57c9e5a"
+    },
+    {
+      "name": "immortalwrt-25.12.1-bcm27xx-bcm2711",
+      "architecture": "aarch64_cortex-a72",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/bcm27xx/bcm2711/immortalwrt-sdk-25.12.1-bcm27xx-bcm2711_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "8af293943f9feb1d831a53d6e1b8c1367a8feb186f08f058cebf3ef530e9e68b"
+    },
+    {
+      "name": "immortalwrt-25.12.1-bcm27xx-bcm2712",
+      "architecture": "aarch64_cortex-a76",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/bcm27xx/bcm2712/immortalwrt-sdk-25.12.1-bcm27xx-bcm2712_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "70d0100420fc65ca7d5f10d308282749259d71f472b607392bd421ad5de1c44a"
+    },
+    {
+      "name": "immortalwrt-25.12.1-armsr-armv8",
+      "architecture": "aarch64_generic",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/armsr/armv8/immortalwrt-sdk-25.12.1-armsr-armv8_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1ac4a0940328ebbb71c5e2e44bd798d9acc06b99dc417178fe9868e5e91a0ef5"
+    },
+    {
+      "name": "immortalwrt-25.12.1-bcm27xx-bcm2708",
+      "architecture": "arm_arm1176jzf-s_vfp",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/bcm27xx/bcm2708/immortalwrt-sdk-25.12.1-bcm27xx-bcm2708_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "c8a3d89d2e3eaa7233f2c3036e74134191d7729e2d0d966dd3b0621a035230b9"
+    },
+    {
+      "name": "immortalwrt-25.12.1-at91-sam9x",
+      "architecture": "arm_arm926ej-s",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/at91/sam9x/immortalwrt-sdk-25.12.1-at91-sam9x_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "223545336216561abedbefdb51a2acecf67166630ab36004e0174ba4ef2523e5"
+    },
+    {
+      "name": "immortalwrt-25.12.1-armsr-armv7",
+      "architecture": "arm_cortex-a15_neon-vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/armsr/armv7/immortalwrt-sdk-25.12.1-armsr-armv7_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "c63b79a2d2b90dce690d2ef6a8253c3cbaa8bb4ddcd5552fce704318b279fbcf"
+    },
+    {
+      "name": "immortalwrt-25.12.1-at91-sama5",
+      "architecture": "arm_cortex-a5_vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/at91/sama5/immortalwrt-sdk-25.12.1-at91-sama5_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "4929371de444bcb663c77df641a17b1105c9093e449cb4d457e90a473630b13a"
+    },
+    {
+      "name": "immortalwrt-25.12.1-mediatek-mt7629",
+      "architecture": "arm_cortex-a7",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/mediatek/mt7629/immortalwrt-sdk-25.12.1-mediatek-mt7629_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "277abd734ad08a61d59be05726b64487843cdfbc7c504ac44478f3d0d86f8c08"
+    },
+    {
+      "name": "immortalwrt-25.12.1-ipq40xx-generic",
+      "architecture": "arm_cortex-a7_neon-vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/ipq40xx/generic/immortalwrt-sdk-25.12.1-ipq40xx-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "f51ebf2f26d04ff0f2a3406d31a4842fc1e111af277c18e71e8fdba1f3a94016"
+    },
+    {
+      "name": "immortalwrt-25.12.1-at91-sama7",
+      "architecture": "arm_cortex-a7_vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/at91/sama7/immortalwrt-sdk-25.12.1-at91-sama7_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "0e3ba20986209bf0cbf2f803a42587589599f4116e7d34a7db04936b525e5757"
+    },
+    {
+      "name": "immortalwrt-25.12.1-omap-generic",
+      "architecture": "arm_cortex-a8_vfpv3",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/omap/generic/immortalwrt-sdk-25.12.1-omap-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "bdc5b39159ae334dd78d97fe388f01c251d16cdea577e5c4adda08e599cab43e"
+    },
+    {
+      "name": "immortalwrt-25.12.1-bcm53xx-generic",
+      "architecture": "arm_cortex-a9",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/bcm53xx/generic/immortalwrt-sdk-25.12.1-bcm53xx-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "cc29fe585b9eb9614ab0956769d967554ce4d0f94b8209842c444c06d2bfa835"
+    },
+    {
+      "name": "immortalwrt-25.12.1-imx-cortexa9",
+      "architecture": "arm_cortex-a9_neon",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/imx/cortexa9/immortalwrt-sdk-25.12.1-imx-cortexa9_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "1b13402199d8e2cced7587a688fcd930efd258abd776183bca35804b5ff2626d"
+    },
+    {
+      "name": "immortalwrt-25.12.1-mvebu-cortexa9",
+      "architecture": "arm_cortex-a9_vfpv3-d16",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/mvebu/cortexa9/immortalwrt-sdk-25.12.1-mvebu-cortexa9_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "f4003cbdec197a67af87fcc342366c67f1d03e62250dcdcc82cd6fdf946f908c"
+    },
+    {
+      "name": "immortalwrt-25.12.1-gemini-generic",
+      "architecture": "arm_fa526",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/gemini/generic/immortalwrt-sdk-25.12.1-gemini-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "c81d3ac0b3911858770ab2b1028b967abb7fd3195eacbe5d58738c1fdc51132c"
+    },
+    {
+      "name": "immortalwrt-25.12.1-kirkwood-generic",
+      "architecture": "arm_xscale",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/kirkwood/generic/immortalwrt-sdk-25.12.1-kirkwood-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "954f65437a40c1c19261017c4086674c3d907fad680b464068e3710b2016cc3b"
+    },
+    {
+      "name": "immortalwrt-25.12.1-ixp4xx-generic",
+      "architecture": "armeb_xscale",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/ixp4xx/generic/immortalwrt-sdk-25.12.1-ixp4xx-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "8c724137ead1043b6aeddef674ea46a6d5a7743bde3f5aaac0ed9493fffa222a"
+    },
+    {
+      "name": "immortalwrt-25.12.1-x86-geode",
+      "architecture": "i386_pentium-mmx",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/x86/geode/immortalwrt-sdk-25.12.1-x86-geode_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "fb40db399411362abe5eebe7d619b4d50198884ef7c5579f48cb3263975546f9"
+    },
+    {
+      "name": "immortalwrt-25.12.1-x86-generic",
+      "architecture": "i386_pentium4",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/x86/generic/immortalwrt-sdk-25.12.1-x86-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1be3a546839367ec3a78fcd87feb956c246076aa9f5ad2b5ab7eb01ef0f6f8d3"
+    },
+    {
+      "name": "immortalwrt-25.12.1-loongarch64-generic",
+      "architecture": "loongarch64_generic",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/loongarch64/generic/immortalwrt-sdk-25.12.1-loongarch64-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "e221700360518300f7113fc78337108a4716979e7c6d15bf4034f871c922d63b"
+    },
+    {
+      "name": "immortalwrt-25.12.1-malta-be64",
+      "architecture": "mips64_mips64r2",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/malta/be64/immortalwrt-sdk-25.12.1-malta-be64_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "7461274999defa78072d4a03e03e7ff9d0ad991d0d8dac79a3f1de1c61ea902c"
+    },
+    {
+      "name": "immortalwrt-25.12.1-octeon-generic",
+      "architecture": "mips64_octeonplus",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/octeon/generic/immortalwrt-sdk-25.12.1-octeon-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "1f6c04851848a6d4f102ba5290de801d3dff7b77d627374c93ae3f783b6530c7"
+    },
+    {
+      "name": "immortalwrt-25.12.1-malta-le64",
+      "architecture": "mips64el_mips64r2",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/malta/le64/immortalwrt-sdk-25.12.1-malta-le64_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "e50e7a0da873ad6d97e84629c627363969329f49384cde8da0e99d6d7f45bdfd"
+    },
+    {
+      "name": "immortalwrt-25.12.1-ath79-generic",
+      "architecture": "mips_24kc",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/ath79/generic/immortalwrt-sdk-25.12.1-ath79-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "3825723498770b09fb47fe82a1cd50285ea7645753f1214f79f7d55bbc0e38ea"
+    },
+    {
+      "name": "immortalwrt-25.12.1-bmips-bcm6318",
+      "architecture": "mips_mips32",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/bmips/bcm6318/immortalwrt-sdk-25.12.1-bmips-bcm6318_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "17dda2f35a27a028438b73993f4e3224b73ff7443ef7b80bafdbd3112012b850"
+    },
+    {
       "name": "immortalwrt-25.12.1-ramips-mt7621",
       "architecture": "mipsel_24kc",
       "format": "apk",
@@ -85,18 +1373,123 @@
       "sha256": "1b673705ec54ed9db4e56521c44c49d4001aeba1ef148bc44cb2c7215406c658"
     },
     {
-      "name": "immortalwrt-25.12.2-ramips-mt7621",
-      "architecture": "mipsel_24kc",
+      "name": "immortalwrt-25.12.1-pistachio-generic",
+      "architecture": "mipsel_24kc_24kf",
       "format": "apk",
-      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/ramips/mt7621/immortalwrt-sdk-25.12.2-ramips-mt7621_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
-      "sha256": "8b8c6a61c8f62ad984895607d7b7f4893d46a1528212e3460b5b6c60f85d3d35"
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/pistachio/generic/immortalwrt-sdk-25.12.1-pistachio-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "4e720380db718d047b07ae1e0fedf24b381ac46a0debdf5756b582003575e9be"
     },
     {
-      "name": "immortalwrt-25.12.2-ath79-generic",
-      "architecture": "mips_24kc",
+      "name": "immortalwrt-25.12.1-bcm47xx-mips74k",
+      "architecture": "mipsel_74kc",
       "format": "apk",
-      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/ath79/generic/immortalwrt-sdk-25.12.2-ath79-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
-      "sha256": "fed5015c3a35d5cf2b8932e7a14ee7f05ddf403d5319005005a7b0e900ca5c7b"
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/bcm47xx/mips74k/immortalwrt-sdk-25.12.1-bcm47xx-mips74k_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "528eb2be0c5183f13ed44b9cae0fc9aa92d5cdc358d74ed88c520fa08c9d39d8"
+    },
+    {
+      "name": "immortalwrt-25.12.1-bcm47xx-generic",
+      "architecture": "mipsel_mips32",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/bcm47xx/generic/immortalwrt-sdk-25.12.1-bcm47xx-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "c76a531af3122dc048b72ddf5bef0a2ac89ac6c95bf160732125220cbeaec7a8"
+    },
+    {
+      "name": "immortalwrt-25.12.1-qoriq-generic",
+      "architecture": "powerpc64_e5500",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/qoriq/generic/immortalwrt-sdk-25.12.1-qoriq-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "14e14e92638678ad228ba5a0ef7a4de4e2b306eeec6e1c2c8b4e41d0098c6d19"
+    },
+    {
+      "name": "immortalwrt-25.12.1-apm821xx-nand",
+      "architecture": "powerpc_464fp",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/apm821xx/nand/immortalwrt-sdk-25.12.1-apm821xx-nand_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "0d6e9563b166447ee32d773f9a1f39935a8d42947525cb28132199c7a04083ab"
+    },
+    {
+      "name": "immortalwrt-25.12.1-mpc85xx-p1010",
+      "architecture": "powerpc_8548",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/mpc85xx/p1010/immortalwrt-sdk-25.12.1-mpc85xx-p1010_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "562a9009e165564effee1e7a253495c9ad2ad2948df2a99f9531e86f1b3d619c"
+    },
+    {
+      "name": "immortalwrt-25.12.1-starfive-generic",
+      "architecture": "riscv64_generic",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/starfive/generic/immortalwrt-sdk-25.12.1-starfive-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "ed8425766de53b9a4439f5336010637bd43d2826240c5360d59758cbc818c707"
+    },
+    {
+      "name": "immortalwrt-25.12.1-x86-64",
+      "architecture": "x86_64",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.1/targets/x86/64/immortalwrt-sdk-25.12.1-x86-64_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "02ad8cfc775001ccae8e9282d19696de54e3ab3963f005737ad61f8698263edd"
+    },
+    {
+      "name": "immortalwrt-25.12.2-mediatek-filogic",
+      "architecture": "aarch64_cortex-a53",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/mediatek/filogic/immortalwrt-sdk-25.12.2-mediatek-filogic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "03c688afec12a97ab2d28daa6469a467be18a7d123da6b278002f897de66ef62"
+    },
+    {
+      "name": "immortalwrt-25.12.2-bcm27xx-bcm2711",
+      "architecture": "aarch64_cortex-a72",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/bcm27xx/bcm2711/immortalwrt-sdk-25.12.2-bcm27xx-bcm2711_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "7cce92fb49a6d164dd624ce566623f60177d4a2dbd7b0b9bd4e490368b3479bd"
+    },
+    {
+      "name": "immortalwrt-25.12.2-bcm27xx-bcm2712",
+      "architecture": "aarch64_cortex-a76",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/bcm27xx/bcm2712/immortalwrt-sdk-25.12.2-bcm27xx-bcm2712_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "a132cbcd608285de03998079f90111510fa1693836d81d271f042ae5599f25f7"
+    },
+    {
+      "name": "immortalwrt-25.12.2-armsr-armv8",
+      "architecture": "aarch64_generic",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/armsr/armv8/immortalwrt-sdk-25.12.2-armsr-armv8_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "8e2891ff99f12d1a9b7164c62064c3d47a1e766e04c3ad3f9f3d0189731f8c7d"
+    },
+    {
+      "name": "immortalwrt-25.12.2-bcm27xx-bcm2708",
+      "architecture": "arm_arm1176jzf-s_vfp",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/bcm27xx/bcm2708/immortalwrt-sdk-25.12.2-bcm27xx-bcm2708_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "f0e3b2cb57197c42632ef674bcf66889b064927f6a15a52a321b4bf5541cc8f6"
+    },
+    {
+      "name": "immortalwrt-25.12.2-at91-sam9x",
+      "architecture": "arm_arm926ej-s",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/at91/sam9x/immortalwrt-sdk-25.12.2-at91-sam9x_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "f17fd85b6eedec926fa6c8a6b22ee6652ff542dad5676db44001f96703910fed"
+    },
+    {
+      "name": "immortalwrt-25.12.2-armsr-armv7",
+      "architecture": "arm_cortex-a15_neon-vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/armsr/armv7/immortalwrt-sdk-25.12.2-armsr-armv7_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "93d61c9ffcdebfcf6bd435866847f118e65f5b87d59656e4e70791c2075a2d35"
+    },
+    {
+      "name": "immortalwrt-25.12.2-at91-sama5",
+      "architecture": "arm_cortex-a5_vfpv4",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/at91/sama5/immortalwrt-sdk-25.12.2-at91-sama5_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "b129497e0705c353a8acdd34b8030fe64266dad0a486215c2138ab96bdc30537"
+    },
+    {
+      "name": "immortalwrt-25.12.2-mediatek-mt7629",
+      "architecture": "arm_cortex-a7",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/mediatek/mt7629/immortalwrt-sdk-25.12.2-mediatek-mt7629_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "3815d5333f5cc4ef57b78e7f67033e466523f9603f1b863e619b158a33004e3d"
     },
     {
       "name": "immortalwrt-25.12.2-ipq40xx-generic",
@@ -106,11 +1499,172 @@
       "sha256": "642163c186970b09a71d688ba14f6ce677dfa08d86f05567e56ed6a60f6d82cc"
     },
     {
-      "name": "immortalwrt-25.12.2-mediatek-filogic",
-      "architecture": "aarch64_cortex-a53",
+      "name": "immortalwrt-25.12.2-at91-sama7",
+      "architecture": "arm_cortex-a7_vfpv4",
       "format": "apk",
-      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/mediatek/filogic/immortalwrt-sdk-25.12.2-mediatek-filogic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
-      "sha256": "03c688afec12a97ab2d28daa6469a467be18a7d123da6b278002f897de66ef62"
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/at91/sama7/immortalwrt-sdk-25.12.2-at91-sama7_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "d960255baccdc1c0fbce3ae599335504a37d948ae520551d6e484e7adb6fe315"
+    },
+    {
+      "name": "immortalwrt-25.12.2-omap-generic",
+      "architecture": "arm_cortex-a8_vfpv3",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/omap/generic/immortalwrt-sdk-25.12.2-omap-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "a4a0bca864488d91e198ea70575be976b074adddb16fbb1f55964415adc4c7f7"
+    },
+    {
+      "name": "immortalwrt-25.12.2-bcm53xx-generic",
+      "architecture": "arm_cortex-a9",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/bcm53xx/generic/immortalwrt-sdk-25.12.2-bcm53xx-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "da693405b7d7eefcc79db845e3954ace7225a1a20a6c32f4b09dbed11c78d3d9"
+    },
+    {
+      "name": "immortalwrt-25.12.2-imx-cortexa9",
+      "architecture": "arm_cortex-a9_neon",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/imx/cortexa9/immortalwrt-sdk-25.12.2-imx-cortexa9_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "8242596ee4ef19464dfa31694fa2b76825c6fa9d35bddabe186db1119f6a172b"
+    },
+    {
+      "name": "immortalwrt-25.12.2-mvebu-cortexa9",
+      "architecture": "arm_cortex-a9_vfpv3-d16",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/mvebu/cortexa9/immortalwrt-sdk-25.12.2-mvebu-cortexa9_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "b503868602e2faccbfbcb2f8e9150dbced5757a12df422cf9e373ee591999b16"
+    },
+    {
+      "name": "immortalwrt-25.12.2-gemini-generic",
+      "architecture": "arm_fa526",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/gemini/generic/immortalwrt-sdk-25.12.2-gemini-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "14331816e7ac770829760fc0033716b570f78628ee25bf62823ff360ac0866c0"
+    },
+    {
+      "name": "immortalwrt-25.12.2-kirkwood-generic",
+      "architecture": "arm_xscale",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/kirkwood/generic/immortalwrt-sdk-25.12.2-kirkwood-generic_gcc-14.3.0_musl_eabi.Linux-x86_64.tar.zst",
+      "sha256": "c730c290e0cae3c5cc817aad2e1f623630ee4db13d3dd649208b04c81270c9e5"
+    },
+    {
+      "name": "immortalwrt-25.12.2-ixp4xx-generic",
+      "architecture": "armeb_xscale",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/ixp4xx/generic/immortalwrt-sdk-25.12.2-ixp4xx-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "53ccb56dac8ff0b9a5280ab5343304e9a7c196a8a84b041f8bc764f013227e56"
+    },
+    {
+      "name": "immortalwrt-25.12.2-x86-geode",
+      "architecture": "i386_pentium-mmx",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/x86/geode/immortalwrt-sdk-25.12.2-x86-geode_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "d6459b195e15feaae48cf798db85dd1faa9962832b3980977ae0a24979afcc58"
+    },
+    {
+      "name": "immortalwrt-25.12.2-x86-generic",
+      "architecture": "i386_pentium4",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/x86/generic/immortalwrt-sdk-25.12.2-x86-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "85387c4910fbe098385dbfb116c366f3712772259019dbc53db218822fce2ea0"
+    },
+    {
+      "name": "immortalwrt-25.12.2-loongarch64-generic",
+      "architecture": "loongarch64_generic",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/loongarch64/generic/immortalwrt-sdk-25.12.2-loongarch64-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "f283fe17323cc3263f81944070432fa6bd6c620c2d70ca825d0b0cf6468b4e3b"
+    },
+    {
+      "name": "immortalwrt-25.12.2-malta-be64",
+      "architecture": "mips64_mips64r2",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/malta/be64/immortalwrt-sdk-25.12.2-malta-be64_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "43aedf1876e8f522cc9f017a9e0ccf5aabec87c60e5915fa9bcde2bcf35f9d66"
+    },
+    {
+      "name": "immortalwrt-25.12.2-octeon-generic",
+      "architecture": "mips64_octeonplus",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/octeon/generic/immortalwrt-sdk-25.12.2-octeon-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "6063ca48017a7e3ab2ea972b6180f5581038e979f6c21918efce259ee7c09f5d"
+    },
+    {
+      "name": "immortalwrt-25.12.2-malta-le64",
+      "architecture": "mips64el_mips64r2",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/malta/le64/immortalwrt-sdk-25.12.2-malta-le64_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "12bc9e81be663d63a9d224dbff15b2a4c4a99d2c55c906a557e9513514cf7f3d"
+    },
+    {
+      "name": "immortalwrt-25.12.2-ath79-generic",
+      "architecture": "mips_24kc",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/ath79/generic/immortalwrt-sdk-25.12.2-ath79-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "fed5015c3a35d5cf2b8932e7a14ee7f05ddf403d5319005005a7b0e900ca5c7b"
+    },
+    {
+      "name": "immortalwrt-25.12.2-bmips-bcm6318",
+      "architecture": "mips_mips32",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/bmips/bcm6318/immortalwrt-sdk-25.12.2-bmips-bcm6318_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "b4637863d1da68f949a3ae90695255cb5b5d47f15022424ce2c4b43cdcacac51"
+    },
+    {
+      "name": "immortalwrt-25.12.2-ramips-mt7621",
+      "architecture": "mipsel_24kc",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/ramips/mt7621/immortalwrt-sdk-25.12.2-ramips-mt7621_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "8b8c6a61c8f62ad984895607d7b7f4893d46a1528212e3460b5b6c60f85d3d35"
+    },
+    {
+      "name": "immortalwrt-25.12.2-pistachio-generic",
+      "architecture": "mipsel_24kc_24kf",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/pistachio/generic/immortalwrt-sdk-25.12.2-pistachio-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "08c73bcf40c10c380acde069a807df34ecb3b2a0db802899d28bca605bd194cf"
+    },
+    {
+      "name": "immortalwrt-25.12.2-bcm47xx-mips74k",
+      "architecture": "mipsel_74kc",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/bcm47xx/mips74k/immortalwrt-sdk-25.12.2-bcm47xx-mips74k_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "e0c1b86c936834ddcf2e529c8854ca7d11d54acbb7a601214af1f063ac4bd871"
+    },
+    {
+      "name": "immortalwrt-25.12.2-bcm47xx-generic",
+      "architecture": "mipsel_mips32",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/bcm47xx/generic/immortalwrt-sdk-25.12.2-bcm47xx-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "49a7bf851e04a4efd1ba4b9daad2255b38eb0f7d99186b416184ba7e4b8e76cd"
+    },
+    {
+      "name": "immortalwrt-25.12.2-qoriq-generic",
+      "architecture": "powerpc64_e5500",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/qoriq/generic/immortalwrt-sdk-25.12.2-qoriq-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "548205c2168b1fe9b608a6d8b9cf837d2d7b3fc01e9b61cc82c6e3b52c9f832d"
+    },
+    {
+      "name": "immortalwrt-25.12.2-apm821xx-nand",
+      "architecture": "powerpc_464fp",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/apm821xx/nand/immortalwrt-sdk-25.12.2-apm821xx-nand_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "c9939cc7cb4d6077a6a70ad855991730955fbc44d4a8c953743b8c98568056be"
+    },
+    {
+      "name": "immortalwrt-25.12.2-mpc85xx-p1010",
+      "architecture": "powerpc_8548",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/mpc85xx/p1010/immortalwrt-sdk-25.12.2-mpc85xx-p1010_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "bd85c9e19a5b96f1fb2d54c8b78d0b7c3f7b08b37d1e2b359beddc30d2248e11"
+    },
+    {
+      "name": "immortalwrt-25.12.2-starfive-generic",
+      "architecture": "riscv64_generic",
+      "format": "apk",
+      "sdk": "https://downloads.immortalwrt.org/releases/25.12.2/targets/starfive/generic/immortalwrt-sdk-25.12.2-starfive-generic_gcc-14.3.0_musl.Linux-x86_64.tar.zst",
+      "sha256": "4f6fff1238827b334ff76853a6ef18e78e91f87d43c7c4a1a6d7ea24f0ad1875"
     },
     {
       "name": "immortalwrt-25.12.2-x86-64",

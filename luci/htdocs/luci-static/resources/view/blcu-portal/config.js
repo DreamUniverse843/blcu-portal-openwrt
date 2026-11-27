@@ -128,11 +128,45 @@ function traffic(value) {
 	return String(value) === '-1' ? _('不限量') : value + ' MB';
 }
 
-function accountRows(data) {
+const billingUnits = { MiB: 1, GiB: 1024 };
+
+function nonnegativeDecimal(value) {
+	if (typeof value === 'string') {
+		value = value.trim();
+		if (!/^(?:\d+(?:\.\d*)?|\.\d+)$/.test(value))
+			return null;
+		value = Number(value);
+	}
+	return Number.isFinite(value) && value >= 0 ? value : null;
+}
+
+function monthlyFee(usageMiB, settings) {
+	const free = nonnegativeDecimal(settings.billing_free);
+	const price = nonnegativeDecimal(settings.billing_price);
+	const freeUnit = billingUnits[settings.billing_free_unit || 'GiB'];
+	const priceUnit = billingUnits[settings.billing_price_unit || 'GiB'];
+	const capValue = settings.billing_cap;
+	const cap = capValue == null || capValue === '' ? Infinity : nonnegativeDecimal(capValue);
+	if (free == null || price == null || cap == null || !freeUnit || !priceUnit)
+		return _('未配置有效的计费规则');
+
+	const used = nonnegativeDecimal(usageMiB);
+	if (used == null)
+		return null;
+
+	const billable = Math.max(0, used / priceUnit - free * (freeUnit / priceUnit));
+	const total = price === 0 ? 0 : Math.min(billable * price, cap);
+	return Number.isFinite(total) ? total.toLocaleString(undefined, {
+		minimumFractionDigits: 2, maximumFractionDigits: 2
+	}) + ' 元' : null;
+}
+
+function accountRows(data, settings) {
 	return keyValues([
 		[ _('在线终端数'), data.online_devices ],
 		[ _('账户余额'), data.balance == null ? null : data.balance + ' 元' ],
 		[ _('已用流量'), traffic(data.use_flow) ],
+		[ _('预估本月费用'), monthlyFee(data.use_flow, settings) ],
 		[ _('剩余流量'), traffic(data.remain_flow) ],
 		[ _('套餐流量'), traffic(data.give_flow) ],
 		[ _('当前套餐'), data.curr_group ],
@@ -201,13 +235,18 @@ return view.extend({
 			}
 		}, 'apply');
 
-		const usage = E('dl', { class: 'blcu-key-values' }, accountRows({}));
+		const usage = E('dl', { class: 'blcu-key-values' });
 		const accountMessage = E('p', { role: 'status', class: 'blcu-feedback' });
+		let latestAccount = {};
+		const renderAccount = () => {
+			const settings = uci.get('blcu-portal', 'main') || {};
+			usage.replaceChildren(...accountRows(latestAccount, settings));
+		};
 		const refreshAccount = async () => {
 			try {
-				const data = await accountSummary();
-				usage.replaceChildren(...accountRows(data));
-				accountMessage.textContent = data.message || '';
+				latestAccount = await accountSummary();
+				renderAccount();
+				accountMessage.textContent = latestAccount.message || '';
 			} catch (error) {
 				accountMessage.textContent = _('账户信息查询失败');
 			}
@@ -227,11 +266,15 @@ return view.extend({
 			.blcu-feedback:empty { display:none }
 			@media (max-width:380px) { .blcu-key-value { grid-template-columns:1fr; gap:.15rem } }
 		`);
-		panel(section, 'status', '_status', '', dashboardStyle,
-			E('div', { class: 'blcu-dashboard' }, [
-				card(_('主连接'), [ refresh, manual, session ], feedback, details),
-				card(_('校园网账户'), [ updateAccount ], accountMessage, usage)
-			]));
+		const dashboard = E('div', { class: 'blcu-dashboard' }, [
+			card(_('主连接'), [ refresh, manual, session ], feedback, details),
+			card(_('校园网账户'), [ updateAccount ], accountMessage, usage)
+		]);
+		const statusPanel = section.taboption('status', form.DummyValue, '_status', '');
+		statusPanel.renderWidget = () => {
+			renderAccount();
+			return E('div', { class: 'blcu-panel' }, [ dashboardStyle, dashboard ]);
+		};
 
 		const names = availableNetworks.map(item => item.getName()).filter(name => name !== 'loopback');
 		const existing = current.fallback_interface || current.interface;
@@ -574,6 +617,25 @@ return view.extend({
 		panel(section, 'settings', '_credentials', '', E('h3', {}, _('主连接账号')),
 			toolbar(E('label', {}, [ _('校园网用户名'), ' ', account ]),
 				E('label', {}, [ _('校园网密码'), ' ', password ]), save));
+
+		panel(section, 'settings', '_billing', '', E('h3', {}, _('月度流量计费')));
+		const decimalFields = [
+			[ 'billing_free', _('月免费额度值'), _('没有免费额度时填写 0。') ],
+			[ 'billing_price', _('超出免费额度单价'), _('按下方单位填写每 MiB 或每 GiB 的价格（元）。') ],
+			[ 'billing_cap', _('封顶值（元）'), _('留空表示不封顶。填 0 表示超额用量免费。') ]
+		];
+		for (const [key, label, description] of decimalFields) {
+			const option = section.taboption('settings', form.Value, key, label, description);
+			option.validate = (_, value) => !value || nonnegativeDecimal(value) != null
+				? true : _('请输入大于或等于 0 的十进制数。');
+			if (key === 'billing_cap')
+				continue;
+			const unit = section.taboption('settings', form.ListValue, key + '_unit',
+				key === 'billing_free' ? _('月免费额度单位') : _('超额单价计量单位'));
+			unit.value('MiB', 'MiB');
+			unit.value('GiB', 'GiB');
+			unit.default = 'GiB';
+		}
 
 		const updateEnabled = section.taboption('settings', form.Flag, 'update_enabled', _('自动检查更新'));
 		updateEnabled.default = '1';
