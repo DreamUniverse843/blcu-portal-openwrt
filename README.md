@@ -23,9 +23,9 @@
 
 ## 构建与发布
 
-[SDK 构建矩阵](.github/sdk-matrix.json) 为每个支持的 OpenWrt 和 ImmortalWrt 固件版本的每个官方包架构固定一个代表性 SDK，记录目标平台和 SHA-256。相同版本和包架构的设备可以使用同一组产物。运行 `python3 .github/generate-sdk-matrix.py` 可按官方索引重新生成矩阵。主分支推送和 PR 运行测试并构建软件包。推送与 Makefile 版本一致的 v 标签后，工作流将矩阵产物发到同一个 Release，正文取自 [更新日志](CHANGELOG.md) 的对应版本。
+[SDK 构建矩阵](.github/sdk-matrix.json) 为每个支持的 OpenWrt 和 ImmortalWrt 固件版本的每个官方包架构固定一个代表性 SDK，记录目标平台和 SHA-256。相同版本和包架构的设备可以使用同一组产物。运行 `python3 .github/generate-sdk-matrix.py` 可按官方索引重新生成矩阵。主分支推送和 PR 运行测试，并使用各固件版本的 ramips/mt7621 SDK 验证打包。手动运行工作流或推送 v 标签时构建全部架构。标签版本与 Makefile 一致时，工作流将产物发到同一个 Release，正文取自 [更新日志](CHANGELOG.md) 的对应版本。
 
-手动使用 SDK 时，将 Makefile、files 和 luci 放入匹配的 SDK 的 package/blcu-portal，安装依赖 feeds 后运行 make defconfig 和 make package/blcu-portal/compile。
+手动使用 SDK 时，将 Makefile、files 和 luci 放入匹配的 SDK 的 package/blcu-portal，安装依赖 feeds 后运行 `make defconfig` 和 `make package/blcu-portal/compile NO_DEPS=1`。软件包保留运行时依赖声明，安装时由路由器的包管理器解析。
 
 build-local-apk.py 可重建用于现场安装的 mipsel_24kc 开发 APK。正式发布由官方 SDK 矩阵生成。
 

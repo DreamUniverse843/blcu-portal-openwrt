@@ -28,10 +28,18 @@ jobs:
           sh -n luci/root/usr/libexec/rpcd/blcu-portal
           find luci/root -name '*.json' -exec python3 -m json.tool '{}' /dev/null \;
       - id: matrix
+        env:
+          FULL_MATRIX: ${{ startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch' }}
         run: |
           jq -e '.include | (length > 0 and length <= 256) and
             (length == (map(.name) | unique | length))' .github/sdk-matrix.json > /dev/null
-          printf 'value=%s\n' "$(jq -c . .github/sdk-matrix.json)" >> "$GITHUB_OUTPUT"
+          matrix=$(jq -ce --arg full "$FULL_MATRIX" '
+            if $full == "true" then .
+            else .include |= (group_by(.sdk | split("/")[2:5]) |
+              map((map(select(.name | endswith("-ramips-mt7621"))) | first) // first))
+            end
+          ' .github/sdk-matrix.json)
+          printf 'value=%s\n' "$matrix" >> "$GITHUB_OUTPUT"
       - name: Validate the version tag and changelog
         if: startsWith(github.ref, 'refs/tags/')
         env:
@@ -67,21 +75,26 @@ jobs:
           mkdir "$RUNNER_TEMP/sdk"
           tar -xf "$archive" -C "$RUNNER_TEMP/sdk" --strip-components=1
           rm "$archive"
-      - name: Build service and LuCI packages
-        env:
-          BUILD_NAME: ${{ matrix.name }}-${{ matrix.architecture }}
-          PACKAGE_FORMAT: ${{ matrix.format }}
+      - name: Prepare package metadata
+        working-directory: ${{ runner.temp }}/sdk
         run: |
-          set -euo pipefail
-          cd "$RUNNER_TEMP/sdk"
-          ./scripts/feeds update -a
+          ./scripts/feeds update packages luci
           ./scripts/feeds install luci-base python3 curl ca-bundle rpcd ubus
           mkdir -p package/blcu-portal
           cp "$GITHUB_WORKSPACE/Makefile" "$GITHUB_WORKSPACE/LICENSE" package/blcu-portal/
           cp -R "$GITHUB_WORKSPACE/files" "$GITHUB_WORKSPACE/luci" package/blcu-portal/
           printf '%s\n' CONFIG_PACKAGE_blcu-portal=m CONFIG_PACKAGE_luci-app-blcu-portal=m >> .config
           make defconfig
-          make -j2 package/blcu-portal/compile V=s
+      - name: Package service and LuCI
+        working-directory: ${{ runner.temp }}/sdk
+        env:
+          BUILD_NAME: ${{ matrix.name }}-${{ matrix.architecture }}
+          PACKAGE_FORMAT: ${{ matrix.format }}
+        run: |
+          set -euo pipefail
+          # Both packages install scripts and static files. The dependencies
+          # belong in their manifests and can be installed by the router.
+          make -j2 package/blcu-portal/compile NO_DEPS=1 V=s
           mkdir -p "$GITHUB_WORKSPACE/dist"
           for package in blcu-portal luci-app-blcu-portal; do
             mapfile -t packages < <(find bin -type f \( -name "$package-*.$PACKAGE_FORMAT" -o -name "${package}_*.$PACKAGE_FORMAT" \))
